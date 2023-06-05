@@ -5,6 +5,7 @@ import (
 )
 
 type Config struct {
+	Auth       AuthConfig
 	PostgreSQL PostgreSQLConfig
 }
 type PostgreSQLConfig struct {
@@ -13,6 +14,10 @@ type PostgreSQLConfig struct {
 	User     string
 	Password string
 	DBName   string
+}
+
+type AuthConfig struct {
+	JWTSecret string
 }
 
 func GetConfig() *Config {

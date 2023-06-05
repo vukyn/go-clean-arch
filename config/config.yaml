@@ -4,3 +4,6 @@ postgreSQL:
     User: postgres
     Password: 123
     DBName: go_demo
+
+auth:
+    JWTSecret: 123456
