@@ -9,6 +9,7 @@ import (
 
 	authRepo "boilerplate-clean-arch/application/domains/auth/repository"
 	authUseCase "boilerplate-clean-arch/application/domains/auth/usecase"
+	authHandler "boilerplate-clean-arch/application/domains/auth/delivery/handler"
 )
 
 type Server struct {
@@ -17,12 +18,14 @@ type Server struct {
 	dbCfg *sql.DB
 }
 
+func (s *Server) Start() {
+	s.run()
+}
+
 func (s *Server) run() {
 
 	//Auth Service
-	// authService := authService.InitauthService(s.redisClient, s.cfg, cache)
 	authRepo := authRepo.NewAuthRepo(s.db)
-	authUsecase := authUseCase.NewAuthUseCase(authRepo)
-
-	fmt.Printf("starting gRPC server at port %v ...", 1234)
+	authUC := authUseCase.NewAuthUseCase(authRepo)
+	authHandler := authHandler.NewAuthHandlers(s.cfg, authUC)
 }
