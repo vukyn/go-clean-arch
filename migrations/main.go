@@ -2,7 +2,7 @@ package main
 
 import (
 	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/models"
+	"boilerplate-clean-arch/internal/models"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -22,8 +22,6 @@ func main() {
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(
-		&models.User{},
-		&models.Todo{},
-	)
+	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Todo{})
 }

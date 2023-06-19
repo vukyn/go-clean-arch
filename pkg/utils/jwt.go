@@ -2,7 +2,7 @@ package utils
 
 import (
 	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/models"
+	"boilerplate-clean-arch/internal/models"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"

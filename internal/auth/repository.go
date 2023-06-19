@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"boilerplate-clean-arch/models"
+	"boilerplate-clean-arch/internal/models"
 	"context"
 
 	"github.com/google/uuid"

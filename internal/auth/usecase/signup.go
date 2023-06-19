@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"boilerplate-clean-arch/models"
+	"boilerplate-clean-arch/internal/models"
 	"context"
 	"github.com/labstack/gommon/log"
 )
