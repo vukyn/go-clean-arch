@@ -11,13 +11,13 @@ import (
 )
 
 // Register godoc
-// @Summary Register new user
-// @Description register new user, returns user and token
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 201 {object} models.User
-// @Router /auth/register [post]
+//	@Summary		Register new user
+//	@Description	register new user, returns user and token
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		201	{object}	models.User
+//	@Router			/auth/register [post]
 func (h *authHandlers) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := utils.GetRequestCtx(c)
