@@ -1,24 +1,35 @@
 basePath: api/v1
 definitions:
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
-    type: object
   models.User:
     properties:
-      createdAt:
+      about:
+        maxLength: 1024
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
+      address:
+        maxLength: 250
+        type: string
+      avatar:
+        maxLength: 512
+        type: string
+      birthday:
+        maxLength: 10
+        type: string
+      city:
+        maxLength: 24
+        type: string
+      country:
+        maxLength: 24
+        type: string
+      created_at:
+        type: string
       email:
         maxLength: 60
         type: string
       first_name:
         maxLength: 30
+        type: string
+      gender:
+        maxLength: 10
         type: string
       id:
         type: integer
@@ -30,7 +41,13 @@ definitions:
       password:
         minLength: 6
         type: string
-      updatedAt:
+      phone_number:
+        maxLength: 20
+        type: string
+      role:
+        maxLength: 10
+        type: string
+      updated_at:
         type: string
       user_id:
         type: string
@@ -39,15 +56,13 @@ definitions:
     - last_name
     - password
     type: object
-host: petstore.swagger.io
 info:
   contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server Petstore server.
-  termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+    email: vukynpro@gmailcom
+    name: Vu Ky
+    url: https://github.com/vukyn
+  description: Example Golang REST API.
+  title: Swagger Clean Architecture API
   version: "1.0"
 paths:
   /auth/register:
@@ -55,6 +70,52 @@ paths:
       consumes:
       - application/json
       description: register new user, returns user and token
+      parameters:
+      - description: First name
+        in: body
+        name: FirstName
+        required: true
+        schema:
+          type: string
+      - description: Last name
+        in: body
+        name: LastName
+        required: true
+        schema:
+          type: string
+      - description: Email
+        in: body
+        name: Email
+        required: true
+        schema:
+          type: string
+      - description: Password
+        in: body
+        name: Password
+        required: true
+        schema:
+          type: string
+      - description: Gender
+        in: body
+        name: Gender
+        required: true
+        schema:
+          type: string
+      - description: City
+        in: body
+        name: City
+        schema:
+          type: string
+      - description: Country
+        in: body
+        name: Country
+        schema:
+          type: string
+      - description: Gender
+        in: body
+        name: Birthday
+        schema:
+          type: string
       produces:
       - application/json
       responses:

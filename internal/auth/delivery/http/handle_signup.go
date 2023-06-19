@@ -1,22 +1,33 @@
 package http
 
 import (
-	"boilerplate-clean-arch/models"
+	"boilerplate-clean-arch/internal/models"
 	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/pkg/utils"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+	// _ "boilerplate-clean-arch/docs"
 )
 
 // Register godoc
+//
 //	@Summary		Register new user
 //	@Description	register new user, returns user and token
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
-//	@Success		201	{object}	models.User
+//	@Param			FirstName	body		string	true	"First name"
+//	@Param			LastName	body		string	true	"Last name"
+//	@Param			Email		body		string	true	"Email"
+//	@Param			Password	body		string	true	"Password"
+//	@Param			Gender		body		string	true	"Gender"
+//	@Param			City		body		string	false	"City"
+//	@Param			Country		body		string	false	"Country"
+//	@Param			Birthday	body		string	false	"Gender"
+//	@Success		201			{object}	models.User
 //	@Router			/auth/register [post]
 func (h *authHandlers) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -29,7 +40,11 @@ func (h *authHandlers) Register() echo.HandlerFunc {
 
 		createdUser, err := h.authUC.SignUp(ctx, user)
 		if err != nil {
-			return c.JSON(httpErrors.ErrorResponse(err))
+			if strings.Contains(err.Error(), httpErrors.ErrBadRequest) {
+				return c.JSON(http.StatusOK, httpErrors.NewBadRequestError(utils.GetErrorMessage(err)))
+			} else {
+				return c.JSON(httpErrors.ErrorResponse(err))
+			}
 		}
 		return c.JSON(http.StatusCreated, createdUser)
 	}

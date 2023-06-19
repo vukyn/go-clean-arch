@@ -25,7 +25,7 @@ type User struct {
 	Birthday    time.Time `gorm:"column:birthday" json:"birthday,omitempty" redis:"birthday" validate:"omitempty,lte=10"`
 	CreatedAt   time.Time `gorm:"column:created_at" json:"created_at,omitempty" redis:"created_at"`
 	UpdatedAt   time.Time `gorm:"column:updated_at" json:"updated_at,omitempty" redis:"updated_at"`
-	LoginDate   time.Time `gorm:"column:login_date" json:"login_date" redis:"login_date"`
+	LoginDate   time.Time `gorm:"column:login_date" json:"login_date,omitempty" redis:"login_date" validate:"omitempty"`
 }
 
 // Hash user password with bcrypt
@@ -49,4 +49,32 @@ func (u *User) ComparePasswords(password string) error {
 // Sanitize user password
 func (u *User) SanitizePassword() {
 	u.Password = ""
+}
+
+// Generate new user id
+func (u *User) NewUUID() {
+	u.UserId = uuid.New()
+}
+
+// Parse from request body
+func (u *User) Parse() *User {
+	u.NewUUID()
+	u.HashPassword()
+	return &User{
+		UserId:      u.UserId,
+		FirstName:   u.FirstName,
+		LastName:    u.LastName,
+		Email:       u.Email,
+		Password:    u.Password,
+		PhoneNumber: u.PhoneNumber,
+		Address:     u.Address,
+		City:        u.City,
+		Country:     u.Country,
+		Gender:      u.Gender,
+		Birthday:    u.Birthday,
+	}
+}
+
+func (u *User) TableName() string {
+	return "users"
 }

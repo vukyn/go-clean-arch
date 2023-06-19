@@ -13,5 +13,5 @@ tidy:
 swaggo:
 	echo "Starting swagger generating"
 	swag fmt
-	swag init -g **/**/*.go
+	swag init -g cmd/main.go
 

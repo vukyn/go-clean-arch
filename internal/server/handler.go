@@ -1,10 +1,13 @@
 package server
 
 import (
+	_ "boilerplate-clean-arch/docs"
+	authHttp "boilerplate-clean-arch/internal/auth/delivery/http"
 	authRepository "boilerplate-clean-arch/internal/auth/repository"
 	authUseCase "boilerplate-clean-arch/internal/auth/usecase"
-	authHttp "boilerplate-clean-arch/internal/auth/delivery/http"
+
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
@@ -22,10 +25,11 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 
 	v1 := e.Group("/api/v1")
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.Use(middleware.Logger())
 
 	authGroup := v1.Group("/auth")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers)
-	
+
 	return nil
 }

@@ -1,17 +1,15 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server Petstore server.",
-        "title": "Swagger Example API",
-        "termsOfService": "http://swagger.io/terms/",
+        "description": "Example Golang REST API.",
+        "title": "Swagger Clean Architecture API",
         "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
+            "name": "Vu Ky",
+            "url": "https://github.com/vukyn",
+            "email": "vukynpro@gmailcom"
         },
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
     "basePath": "api/v1",
     "paths": {
         "/auth/register": {
@@ -27,6 +25,77 @@
                     "Auth"
                 ],
                 "summary": "Register new user",
+                "parameters": [
+                    {
+                        "description": "First name",
+                        "name": "FirstName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Last name",
+                        "name": "LastName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Email",
+                        "name": "Email",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Password",
+                        "name": "Password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Gender",
+                        "name": "Gender",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "City",
+                        "name": "City",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Country",
+                        "name": "Country",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Gender",
+                        "name": "Birthday",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -39,18 +108,6 @@
         }
     },
     "definitions": {
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
         "models.User": {
             "type": "object",
             "required": [
@@ -59,11 +116,32 @@
                 "password"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
+                "about": {
+                    "type": "string",
+                    "maxLength": 1024
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "address": {
+                    "type": "string",
+                    "maxLength": 250
+                },
+                "avatar": {
+                    "type": "string",
+                    "maxLength": 512
+                },
+                "birthday": {
+                    "type": "string",
+                    "maxLength": 10
+                },
+                "city": {
+                    "type": "string",
+                    "maxLength": 24
+                },
+                "country": {
+                    "type": "string",
+                    "maxLength": 24
+                },
+                "created_at": {
+                    "type": "string"
                 },
                 "email": {
                     "type": "string",
@@ -72,6 +150,10 @@
                 "first_name": {
                     "type": "string",
                     "maxLength": 30
+                },
+                "gender": {
+                    "type": "string",
+                    "maxLength": 10
                 },
                 "id": {
                     "type": "integer"
@@ -87,7 +169,15 @@
                     "type": "string",
                     "minLength": 6
                 },
-                "updatedAt": {
+                "phone_number": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "role": {
+                    "type": "string",
+                    "maxLength": 10
+                },
+                "updated_at": {
                     "type": "string"
                 },
                 "user_id": {

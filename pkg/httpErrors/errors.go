@@ -20,12 +20,12 @@ type RestErr interface {
 type RestError struct {
 	ErrStatus int         `json:"status,omitempty"`
 	ErrError  string      `json:"error,omitempty"`
-	ErrCauses interface{} `json:"-"`
+	ErrCause  interface{} `json:"cause,omitempty"`
 }
 
 // Error  Error() interface method
 func (e RestError) Error() string {
-	return fmt.Sprintf("status: %d - errors: %s - causes: %v", e.ErrStatus, e.ErrError, e.ErrCauses)
+	return fmt.Sprintf("status: %d - errors: %s - cause: %v", e.ErrStatus, e.ErrError, e.ErrCause)
 }
 
 // Error status
@@ -35,60 +35,60 @@ func (e RestError) Status() int {
 
 // RestError Causes
 func (e RestError) Causes() interface{} {
-	return e.ErrCauses
+	return e.ErrCause
 }
 
 // New Rest Error
-func NewRestError(status int, err string, causes interface{}) RestErr {
+func NewRestError(status int, err string, cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: status,
 		ErrError:  err,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 }
 
 // New Bad Request Error
-func NewBadRequestError(causes interface{}) RestErr {
+func NewBadRequestError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusBadRequest,
 		ErrError:  ErrBadRequest,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 }
 
 // New Not Found Error
-func NewNotFoundError(causes interface{}) RestErr {
+func NewNotFoundError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusNotFound,
 		ErrError:  ErrNotFound,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 }
 
 // New Unauthorized Error
-func NewUnauthorizedError(causes interface{}) RestErr {
+func NewUnauthorizedError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusUnauthorized,
 		ErrError:  ErrUnauthorized,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 }
 
 // New Forbidden Error
-func NewForbiddenError(causes interface{}) RestErr {
+func NewForbiddenError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusForbidden,
 		ErrError:  ErrForbidden,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 }
 
 // New Internal Server Error
-func NewInternalServerError(causes interface{}) RestErr {
+func NewInternalServerError(cause interface{}) RestErr {
 	result := RestError{
 		ErrStatus: http.StatusInternalServerError,
 		ErrError:  ErrInternalServer,
-		ErrCauses: causes,
+		ErrCause:  cause,
 	}
 	return result
 }
