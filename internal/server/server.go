@@ -1,48 +1,48 @@
-package application
+package server
 
 import (
 	"boilerplate-clean-arch/config"
-	"database/sql"
+	"context"
 	"fmt"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"gorm.io/gorm"
+)
 
-	authRepo "boilerplate-clean-arch/application/domains/auth/repository"
-	authUseCase "boilerplate-clean-arch/application/domains/auth/usecase"
-	authHandler "boilerplate-clean-arch/application/domains/auth/delivery/handler"
+const (
+	ctxTimeout = 5
 )
 
 // Server struct
 type Server struct {
-	echo        *echo.Echo
-	cfg         *config.Config
+	echo *echo.Echo
+	cfg  *config.Config
+	db   *gorm.DB
 }
 
 // constructor
-func NewServer(cfg *config.Config) *Server {
-	return &Server{echo: echo.New(), cfg: cfg}
+func NewServer(cfg *config.Config, db *gorm.DB) *Server {
+	return &Server{echo: echo.New(), cfg: cfg, db: db}
 }
 
 func (s *Server) Run() error {
 
 	server := &http.Server{
-		Addr:           s.cfg.Server.Port,
-		ReadTimeout:    time.Second * s.cfg.Server.ReadTimeout,
-		WriteTimeout:   time.Second * s.cfg.Server.WriteTimeout,
-		MaxHeaderBytes: maxHeaderBytes,
+		Addr:         fmt.Sprintf(":%d", s.cfg.Server.Port),
+		ReadTimeout:  time.Second * s.cfg.Server.ReadTimeout,
+		WriteTimeout: time.Second * s.cfg.Server.WriteTimeout,
 	}
 
 	go func() {
-		s.logger.Infof("Server is listening on PORT: %s", s.cfg.Server.Port)
+		log.Infof("Server is listening on PORT: %d", s.cfg.Server.Port)
 		if err := s.echo.StartServer(server); err != nil {
-			s.logger.Fatalf("Error starting Server: ", err)
-		}
-	}()
-
-	go func() {
-		s.logger.Infof("Starting Debug Server on PORT: %s", s.cfg.Server.PprofPort)
-		if err := http.ListenAndServe(s.cfg.Server.PprofPort, http.DefaultServeMux); err != nil {
-			s.logger.Errorf("Error PPROF ListenAndServe: %s", err)
+			log.Fatalf("Error starting Server: ", err)
 		}
 	}()
 
@@ -58,6 +58,6 @@ func (s *Server) Run() error {
 	ctx, shutdown := context.WithTimeout(context.Background(), ctxTimeout*time.Second)
 	defer shutdown()
 
-	s.logger.Info("Server Exited Properly")
+	log.Info("Server Exited Properly")
 	return s.echo.Server.Shutdown(ctx)
 }

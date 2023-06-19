@@ -1,7 +1,8 @@
-package handler
+package http
 
 import (
-	http_helper "boilerplate-clean-arch/application/utils/httpHelper"
+	"boilerplate-clean-arch/pkg/utils"
+	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/models"
 	"net/http"
 
@@ -11,16 +12,16 @@ import (
 
 func (h *authHandlers) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		ctx := http_helper.GetRequestCtx(c)
+		ctx := utils.GetRequestCtx(c)
 		user := &models.User{}
-		if err := http_helper.ReadRequest(c, user); err != nil {
+		if err := utils.ReadRequest(c, user); err != nil {
 			log.Error(err)
-			return c.JSON(http_helper.ErrorResponse(err))
+			return c.JSON(httpErrors.ErrorResponse(err))
 		}
 
 		createdUser, err := h.authUC.SignUp(ctx, user)
 		if err != nil {
-			return c.JSON(http_helper.ErrorResponse(err))
+			return c.JSON(httpErrors.ErrorResponse(err))
 		}
 		return c.JSON(http.StatusCreated, createdUser)
 	}

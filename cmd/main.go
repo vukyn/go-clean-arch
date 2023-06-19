@@ -1,19 +1,28 @@
 package main
 
-import "log"
+import (
+	"boilerplate-clean-arch/config"
+	"boilerplate-clean-arch/internal/server"
+	"fmt"
+	"github.com/labstack/gommon/log"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
 
 func main() {
-	configPath := cconfig.GetConfigPath(os.Getenv("ENVIRONMENT"))
-	config, err := config.GetConfig(configPath)
+	log.Info("Starting api server")
+
+	cfg := config.GetConfig()
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", cfg.PostgreSQL.Host, cfg.PostgreSQL.User, cfg.PostgreSQL.Password, cfg.PostgreSQL.DBName, cfg.PostgreSQL.Port)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		log.Fatalf("Postgresql init: %s", err)
 	}
-	log.Printf("starting gRPC server at port %v ...", 1234)
-	s := application.NewServer(config)
 
-	go func() {
-		s.Start()
-	}()
-	defer s.Stop()
-
+	s := server.NewServer(cfg, db)
+	if err = s.Run(); err != nil {
+		log.Fatal(err)
+	}
 }

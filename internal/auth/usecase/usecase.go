@@ -1,6 +1,6 @@
 package usecase
 
-import "boilerplate-clean-arch/application/domains/auth"
+import "boilerplate-clean-arch/internal/auth"
 
 type authUseCase struct {
 	userRepo auth.Repository

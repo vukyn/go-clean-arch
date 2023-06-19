@@ -1,3 +1,14 @@
+server:
+  AppVersion: 1.0.0
+  Port: 5001
+  Mode: Development
+  JwtSecretKey: secretkey
+  ReadTimeout: 5
+  WriteTimeout: 5
+  SSL: false
+  CtxDefaultTimeout: 12
+  Debug: false
+
 postgreSQL:
     Host: localhost
     Port: 5432

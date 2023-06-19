@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/application/domains/auth"
+	"boilerplate-clean-arch/internal/auth"
 
 	"gorm.io/gorm"
 )
@@ -12,7 +12,7 @@ type authRepo struct {
 }
 
 // Constructor
-func NewAuthRepo(db *gorm.DB) auth.Repository {
+func NewAuthRepository(db *gorm.DB) auth.Repository {
 	return &authRepo{
 		db: db,
 	}

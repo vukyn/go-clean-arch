@@ -1,12 +1,15 @@
 package config
 
 import (
+	"time"
+
 	"github.com/spf13/viper"
 )
 
 type Config struct {
 	Auth       AuthConfig
 	PostgreSQL PostgreSQLConfig
+	Server     ServerConfig
 }
 type PostgreSQLConfig struct {
 	Host     string
@@ -14,6 +17,18 @@ type PostgreSQLConfig struct {
 	User     string
 	Password string
 	DBName   string
+}
+
+type ServerConfig struct {
+	AppVersion        string
+	Port              int
+	Mode              string
+	JwtSecretKey      string
+	ReadTimeout       time.Duration
+	WriteTimeout      time.Duration
+	SSL               bool
+	CtxDefaultTimeout time.Duration
+	Debug             bool
 }
 
 type AuthConfig struct {

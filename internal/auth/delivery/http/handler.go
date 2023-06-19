@@ -1,7 +1,7 @@
-package handler
+package http
 
 import (
-	"boilerplate-clean-arch/application/domains/auth"
+	"boilerplate-clean-arch/internal/auth"
 	"boilerplate-clean-arch/config"
 )
 

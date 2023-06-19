@@ -1,4 +1,4 @@
-package http_helper
+package httpErrors
 
 const (
 	ErrBadRequest         = "Bad request"
