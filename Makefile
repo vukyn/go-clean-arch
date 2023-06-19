@@ -4,5 +4,5 @@ server:
 migrate:
 	go run migrations/main.go
 
-docs:
+gen-doc :
 	swag init --parseDependency -g cmd/main.go

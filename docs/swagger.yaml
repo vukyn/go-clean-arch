@@ -1,4 +1,44 @@
 basePath: api/v1
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        maxLength: 60
+        type: string
+      first_name:
+        maxLength: 30
+        type: string
+      id:
+        type: integer
+      last_name:
+        maxLength: 30
+        type: string
+      login_date:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+    required:
+    - first_name
+    - last_name
+    - password
+    type: object
 host: petstore.swagger.io
 info:
   contact:
@@ -9,5 +49,20 @@ info:
   termsOfService: http://swagger.io/terms/
   title: Swagger Example API
   version: "1.0"
-paths: {}
+paths:
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: register new user, returns user and token
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Register new user
+      tags:
+      - Auth
 swagger: "2.0"
