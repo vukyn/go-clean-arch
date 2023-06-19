@@ -3,3 +3,6 @@ server:
 
 migrate:
 	go run migrations/main.go
+
+docs:
+	swag init --parseDependency -g cmd/main.go

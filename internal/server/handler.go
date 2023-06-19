@@ -5,6 +5,7 @@ import (
 	authUseCase "boilerplate-clean-arch/internal/auth/usecase"
 	authHttp "boilerplate-clean-arch/internal/auth/delivery/http"
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // Map Server Handlers
@@ -20,6 +21,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authUC)
 
 	v1 := e.Group("/api/v1")
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	authGroup := v1.Group("/auth")
 
