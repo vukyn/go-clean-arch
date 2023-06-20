@@ -3,7 +3,6 @@ package usecase
 import (
 	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/models"
-	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/pkg/utils"
 	"context"
 
@@ -24,12 +23,12 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	_, err := a.userRepo.FindByEmail(ctx, user)
 	if err == nil {
 		log.Errorf("User already exist with email: %v", err)
-		return nil, utils.NewError(httpErrors.ErrBadRequest, constants.ERROR_CODE_EMAIL_ALREADY_EXISTS)
+		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_EMAIL_ALREADY_EXISTS)
 	}
 
 	if user.Gender != "Male" && user.Gender != "Female" {
 		log.Errorf("Invalid gender type: %s", user.Gender)
-		return nil, utils.NewError(httpErrors.ErrBadRequest, constants.ERROR_CODE_INVALID_GENDER_TYPE)
+		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_INVALID_GENDER_TYPE)
 	}
 	// end validation
 

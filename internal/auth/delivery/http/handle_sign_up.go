@@ -1,6 +1,7 @@
 package http
 
 import (
+	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/models"
 	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/pkg/utils"
@@ -12,10 +13,10 @@ import (
 	// _ "boilerplate-clean-arch/docs"
 )
 
-// Register godoc
+// SignUp godoc
 //
-//	@Summary		Register new user
-//	@Description	register new user, returns user and token
+//	@Summary		Sign up new user
+//	@Description	Sign up new user, returns user and token
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
@@ -28,22 +29,22 @@ import (
 //	@Param			Country		body		string	false	"Country"
 //	@Param			Birthday	body		string	false	"Gender"
 //	@Success		201			{object}	models.User
-//	@Router			/auth/register [post]
-func (h *authHandlers) Register() echo.HandlerFunc {
+//	@Router			/auth/sign-up [post]
+func (h *authHandlers) SignUp() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := utils.GetRequestCtx(c)
 		user := &models.User{}
 		if err := utils.ReadRequest(c, user); err != nil {
 			log.Error(err)
-			return c.JSON(httpErrors.ErrorResponse(err))
+			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
 		}
 
 		createdUser, err := h.authUC.SignUp(ctx, user)
 		if err != nil {
-			if strings.Contains(err.Error(), httpErrors.ErrBadRequest) {
+			if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
 				return c.JSON(http.StatusOK, httpErrors.NewBadRequestError(utils.GetErrorMessage(err)))
 			} else {
-				return c.JSON(httpErrors.ErrorResponse(err))
+				return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
 			}
 		}
 		return c.JSON(http.StatusCreated, createdUser)

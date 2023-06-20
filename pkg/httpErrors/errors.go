@@ -1,12 +1,9 @@
 package httpErrors
 
 import (
-	"context"
-	"database/sql"
-	"errors"
+	"boilerplate-clean-arch/internal/constants"
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 // Rest error interface
@@ -51,7 +48,7 @@ func NewRestError(status int, err string, cause interface{}) RestErr {
 func NewBadRequestError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusBadRequest,
-		ErrError:  ErrBadRequest,
+		ErrError:  constants.ERROR_CODE_BAD_REQUEST,
 		ErrCause:  cause,
 	}
 }
@@ -60,7 +57,7 @@ func NewBadRequestError(cause interface{}) RestErr {
 func NewNotFoundError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusNotFound,
-		ErrError:  ErrNotFound,
+		ErrError:  constants.ERROR_CODE_NOT_FOUND,
 		ErrCause:  cause,
 	}
 }
@@ -69,7 +66,7 @@ func NewNotFoundError(cause interface{}) RestErr {
 func NewUnauthorizedError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusUnauthorized,
-		ErrError:  ErrUnauthorized,
+		ErrError:  constants.ERROR_CODE_UNAUTHORIZED,
 		ErrCause:  cause,
 	}
 }
@@ -78,7 +75,7 @@ func NewUnauthorizedError(cause interface{}) RestErr {
 func NewForbiddenError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusForbidden,
-		ErrError:  ErrForbidden,
+		ErrError:  constants.ERROR_CODE_FORBIDDEN,
 		ErrCause:  cause,
 	}
 }
@@ -87,61 +84,8 @@ func NewForbiddenError(cause interface{}) RestErr {
 func NewInternalServerError(cause interface{}) RestErr {
 	result := RestError{
 		ErrStatus: http.StatusInternalServerError,
-		ErrError:  ErrInternalServer,
+		ErrError:  constants.ERROR_CODE_INTERNAL_SERVER,
 		ErrCause:  cause,
 	}
 	return result
-}
-
-func ParseErrors(err error) RestErr {
-	switch {
-	case errors.Is(err, sql.ErrNoRows):
-		return NewRestError(http.StatusNotFound, ErrNotFound, err)
-	case errors.Is(err, context.DeadlineExceeded):
-		return NewRestError(http.StatusRequestTimeout, ErrRequestTimeout, err)
-	case strings.Contains(err.Error(), "SQLSTATE"):
-		return parseSqlErrors(err)
-	case strings.Contains(err.Error(), "Field validation"):
-		return parseValidatorError(err)
-	case strings.Contains(err.Error(), "Unmarshal"):
-		return NewRestError(http.StatusBadRequest, ErrBadRequest, err)
-	case strings.Contains(err.Error(), "UUID"):
-		return NewRestError(http.StatusBadRequest, err.Error(), err)
-	case strings.Contains(strings.ToLower(err.Error()), "cookie"):
-		return NewRestError(http.StatusUnauthorized, ErrUnauthorized, err)
-	case strings.Contains(strings.ToLower(err.Error()), "token"):
-		return NewRestError(http.StatusUnauthorized, ErrUnauthorized, err)
-	case strings.Contains(strings.ToLower(err.Error()), "bcrypt"):
-		return NewRestError(http.StatusBadRequest, ErrBadRequest, err)
-	default:
-		if restErr, ok := err.(RestErr); ok {
-			return restErr
-		}
-		return NewInternalServerError(err)
-	}
-}
-
-func parseSqlErrors(err error) RestErr {
-	switch {
-	case strings.Contains(err.Error(), "23505"):
-		return NewRestError(http.StatusBadRequest, ErrEmailAlreadyExists, err)
-	default:
-		return NewRestError(http.StatusBadRequest, ErrBadRequest, err)
-	}
-}
-
-func parseValidatorError(err error) RestErr {
-	switch {
-	case strings.Contains(err.Error(), "Password"):
-		return NewRestError(http.StatusBadRequest, "Invalid password, min length 6", err)
-	case strings.Contains(err.Error(), "Email"):
-		return NewRestError(http.StatusBadRequest, "Invalid email", err)
-	default:
-		return NewRestError(http.StatusBadRequest, ErrBadRequest, err)
-	}
-}
-
-// Error response
-func ErrorResponse(err error) (int, interface{}) {
-	return ParseErrors(err).Status(), ParseErrors(err)
 }
