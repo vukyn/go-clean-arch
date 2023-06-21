@@ -13,8 +13,8 @@ import (
 
 	"github.com/labstack/gommon/log"
 
-	"github.com/go-redis/redis"
 	"github.com/google/uuid"
+	"github.com/redis/go-redis/v9"
 )
 
 // Session repository
@@ -43,7 +43,7 @@ func (s *sessionRepo) CreateSession(ctx context.Context, prefix string, sess *mo
 		log.Errorf("marshal failed: %s", err)
 		return "", utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_JSON_MARSHAL)
 	}
-	if err = s.redisClient.Set(sessionKey, sessBytes, (time.Second * time.Duration(expire))).Err(); err != nil {
+	if err = s.redisClient.Set(ctx, sessionKey, sessBytes, (time.Second * time.Duration(expire))).Err(); err != nil {
 		log.Errorf("set redis failed: %s", err)
 		return "", utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
@@ -53,7 +53,7 @@ func (s *sessionRepo) CreateSession(ctx context.Context, prefix string, sess *mo
 // Get session by id
 func (s *sessionRepo) GetSessionByID(ctx context.Context, sessionId string) (*models.Session, error) {
 
-	sessBytes, err := s.redisClient.Get(sessionId).Bytes()
+	sessBytes, err := s.redisClient.Get(ctx, sessionId).Bytes()
 	if err != nil {
 		log.Errorf("get redis failed: %s", err)
 		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
@@ -70,7 +70,7 @@ func (s *sessionRepo) GetSessionByID(ctx context.Context, sessionId string) (*mo
 // Delete session by id
 func (s *sessionRepo) DeleteByID(ctx context.Context, sessionId string) error {
 
-	if err := s.redisClient.Del(sessionId).Err(); err != nil {
+	if err := s.redisClient.Del(ctx, sessionId).Err(); err != nil {
 		log.Errorf("del redis failed: %s", err)
 		return utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
 	}

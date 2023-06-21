@@ -17,15 +17,11 @@ postgreSQL:
     DBName: go_demo
 
 redis:
-    RedisAddr: localhost:6379
-    RedisPassword:
-    RedisDb: 0
-    RedisDefaultdb: 0
-    MinIdleConns: 200
-    PoolSize: 12000
-    PoolTimeout: 240
-    Password: ''
-    DB: 0
+    Host: localhost
+    Port: 6379
+    MinIdleConns: 10
+    PoolSize: 10
+    PoolTimeout: 60
 
 auth:
     JWTSecret: 123456

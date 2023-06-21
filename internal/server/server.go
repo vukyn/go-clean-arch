@@ -12,6 +12,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -24,11 +25,12 @@ type Server struct {
 	echo *echo.Echo
 	cfg  *config.Config
 	db   *gorm.DB
+	redisClient *redis.Client
 }
 
 // constructor
-func NewServer(cfg *config.Config, db *gorm.DB) *Server {
-	return &Server{echo: echo.New(), cfg: cfg, db: db}
+func NewServer(cfg *config.Config, db *gorm.DB, redisClient *redis.Client) *Server {
+	return &Server{echo: echo.New(), cfg: cfg, db: db, redisClient: redisClient}
 }
 
 func (s *Server) Run() error {

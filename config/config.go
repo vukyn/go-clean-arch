@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	Auth       AuthConfig
+	Redis      RedisConfig
 	PostgreSQL PostgreSQLConfig
 	Server     ServerConfig
 }
@@ -17,6 +18,14 @@ type PostgreSQLConfig struct {
 	User     string
 	Password string
 	DBName   string
+}
+
+type RedisConfig struct {
+	Host        string
+	Port        int
+	PoolSize    int
+	PoolTimeout int
+	MinIdleConns int
 }
 
 type ServerConfig struct {
