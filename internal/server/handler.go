@@ -5,6 +5,7 @@ import (
 	authHttp "boilerplate-clean-arch/internal/auth/delivery/http"
 	authRepository "boilerplate-clean-arch/internal/auth/repository"
 	authUseCase "boilerplate-clean-arch/internal/auth/usecase"
+	sessionRepository "boilerplate-clean-arch/internal/session/repository"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,9 +17,10 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 
 	// Init repositories
 	aRepo := authRepository.NewAuthRepository(s.db)
+	sRepo := sessionRepository.NewSessionRepository(s.cfg, nil)
 
 	// Init useCases
-	authUC := authUseCase.NewAuthUseCase(s.cfg, aRepo)
+	authUC := authUseCase.NewAuthUseCase(s.cfg, aRepo, sRepo)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authUC)

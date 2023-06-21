@@ -1,13 +1,13 @@
 server:
-  AppVersion: 1.0.0
-  Port: 5001
-  Mode: Development
-  JwtSecretKey: secretkey
-  ReadTimeout: 5
-  WriteTimeout: 5
-  SSL: false
-  CtxDefaultTimeout: 12
-  Debug: false
+    AppVersion: 1.0.0
+    Port: 5001
+    Mode: Development
+    JwtSecretKey: secretkey
+    ReadTimeout: 5
+    WriteTimeout: 5
+    SSL: false
+    CtxDefaultTimeout: 12
+    Debug: false
 
 postgreSQL:
     Host: localhost
@@ -16,5 +16,19 @@ postgreSQL:
     Password: 123
     DBName: go_demo
 
+redis:
+    RedisAddr: localhost:6379
+    RedisPassword:
+    RedisDb: 0
+    RedisDefaultdb: 0
+    MinIdleConns: 200
+    PoolSize: 12000
+    PoolTimeout: 240
+    Password: ''
+    DB: 0
+
 auth:
     JWTSecret: 123456
+    Expire: 3600
+    Issuer: go_demo
+    Audience: go_demo

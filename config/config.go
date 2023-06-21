@@ -33,6 +33,9 @@ type ServerConfig struct {
 
 type AuthConfig struct {
 	JWTSecret string
+	Expire    int
+	Issuer    string
+	Audience  string
 }
 
 func GetConfig() *Config {

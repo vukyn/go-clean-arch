@@ -34,14 +34,11 @@ func (h *authHandlers) SignIn() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
 		}
 
-		token, err := h.authUC.SignIn(ctx, login.Email, login.Password)
+		userWithToken, err := h.authUC.SignIn(ctx, login.Email, login.Password)
 		if err != nil {
 			return c.JSON(http.StatusOK, httpErrors.ParseError(err))
 		}
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"token": token,
-			"type":  "Bearer",
-			"user":  nil,
-		})
+		
+		return c.JSON(http.StatusOK, userWithToken)
 	}
 }

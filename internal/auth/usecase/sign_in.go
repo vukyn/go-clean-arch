@@ -13,7 +13,7 @@ import (
 //		log.Println("Function SignIn() is not implemented yet")
 //		return nil, nil
 //	}
-func (a *authUseCase) SignIn(ctx context.Context, email, password string) (string, error) {
+func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*models.UserWithToken, error) {
 	log.SetPrefix("[SignIn]")
 	log.Infof("Sign in with user {Email: %s}", email)
 
@@ -23,13 +23,13 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (strin
 	user, err := a.userRepo.FindByEmail(ctx, &models.User{Email: email})
 	if err != nil {
 		log.Errorf("User not found with email: %v", err)
-		return "", utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_USER_NOT_FOUND)
+		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_USER_NOT_FOUND)
 	}
 
 	// check if password is correct
 	if err = user.ComparePasswords(password); err != nil {
 		log.Errorf("Compare password failed: %v", err)
-		return "", utils.NewError(constants.ERROR_CODE_UNAUTHORIZED, constants.ERROR_MESSAGE_INVALID_EMAIL_OR_PASSWORD)
+		return nil, utils.NewError(constants.ERROR_CODE_UNAUTHORIZED, constants.ERROR_MESSAGE_INVALID_EMAIL_OR_PASSWORD)
 	}
 	// end validation
 
@@ -37,8 +37,21 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (strin
 	token, err := utils.GenerateJWTToken(user, a.cfg)
 	if err != nil {
 		log.Errorf("Cannot generate token: %v", err)
-		return "", utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	user.SanitizePassword()
+
+	// create session
+	_, err = a.sessRepo.CreateSession(ctx, "api:sign-in", &models.Session{
+		UserId: user.UserId,
+	}, a.cfg.Auth.Expire)
+	if err != nil {
+		log.Errorf("authUC.sessRepo.CreateSession: %v", err)
+		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 
-	return token, nil
+	return &models.UserWithToken{
+		User:  user,
+		Token: token,
+	}, nil
 }

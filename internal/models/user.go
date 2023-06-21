@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// User model
 type User struct {
 	Id          int       `gorm:"primarykey;column:id" json:"id" redis:"id"`
 	UserId      uuid.UUID `gorm:"column:user_id" json:"user_id" redis:"user_id" validate:"omitempty"`
@@ -77,4 +78,10 @@ func (u *User) Parse() *User {
 
 func (u *User) TableName() string {
 	return "users"
+}
+
+// User sign in response
+type UserWithToken struct {
+	User  *User  `json:"user,omitempty"`
+	Token string `json:"token"`
 }
