@@ -38,7 +38,7 @@ func (u *User) HashPassword() error {
 	return nil
 }
 
-// Compare user password and payload
+// Compare user password with bcrypt
 func (u *User) ComparePasswords(password string) error {
 	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)); err != nil {
 		return err

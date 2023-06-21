@@ -18,7 +18,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	aRepo := authRepository.NewAuthRepository(s.db)
 
 	// Init useCases
-	authUC := authUseCase.NewAuthUseCase(aRepo)
+	authUC := authUseCase.NewAuthUseCase(s.cfg, aRepo)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authUC)

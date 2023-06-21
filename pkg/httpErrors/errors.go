@@ -2,8 +2,10 @@ package httpErrors
 
 import (
 	"boilerplate-clean-arch/internal/constants"
+	"boilerplate-clean-arch/pkg/utils"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 // Rest error interface
@@ -88,4 +90,20 @@ func NewInternalServerError(cause interface{}) RestErr {
 		ErrCause:  cause,
 	}
 	return result
+}
+
+func ParseError(err error) RestErr {
+	if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
+		return NewBadRequestError(utils.GetErrorMessage(err))
+	}
+	if strings.Contains(err.Error(), constants.ERROR_CODE_NOT_FOUND) {
+		return NewNotFoundError(utils.GetErrorMessage(err))
+	}
+	if strings.Contains(err.Error(), constants.ERROR_CODE_UNAUTHORIZED) {
+		return NewUnauthorizedError(utils.GetErrorMessage(err))
+	}
+	if strings.Contains(err.Error(), constants.ERROR_CODE_FORBIDDEN) {
+		return NewForbiddenError(utils.GetErrorMessage(err))
+	}
+	return NewInternalServerError(utils.GetErrorMessage(err))
 }

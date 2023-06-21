@@ -12,9 +12,9 @@
     },
     "basePath": "api/v1",
     "paths": {
-        "/auth/register": {
+        "/auth/sign-in": {
             "post": {
-                "description": "register new user, returns user and token",
+                "description": "Sign in and return token",
                 "consumes": [
                     "application/json"
                 ],
@@ -24,7 +24,50 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register new user",
+                "summary": "Sign in",
+                "parameters": [
+                    {
+                        "description": "Email",
+                        "name": "Email",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Password",
+                        "name": "Password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sign-up": {
+            "post": {
+                "description": "Sign up new user, returns user and token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign up new user",
                 "parameters": [
                     {
                         "description": "First name",

@@ -1,11 +1,9 @@
 package http
 
 import (
-	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/pkg/utils"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
@@ -36,14 +34,14 @@ func (h *authHandlers) SignIn() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
 		}
 
-		userWithToken, err := h.authUC.SignIn(ctx, login.Email, login.Password)
+		token, err := h.authUC.SignIn(ctx, login.Email, login.Password)
 		if err != nil {
-			if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
-				return c.JSON(http.StatusOK, httpErrors.NewBadRequestError(utils.GetErrorMessage(err)))
-			} else {
-				return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
-			}
+			return c.JSON(http.StatusOK, httpErrors.ParseError(err))
 		}
-		return c.JSON(http.StatusOK, userWithToken)
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"token": token,
+			"type":  "Bearer",
+			"user":  nil,
+		})
 	}
 }

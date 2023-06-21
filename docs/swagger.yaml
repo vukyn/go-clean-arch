@@ -65,11 +65,39 @@ info:
   title: Swagger Clean Architecture API
   version: "1.0"
 paths:
-  /auth/register:
+  /auth/sign-in:
     post:
       consumes:
       - application/json
-      description: register new user, returns user and token
+      description: Sign in and return token
+      parameters:
+      - description: Email
+        in: body
+        name: Email
+        required: true
+        schema:
+          type: string
+      - description: Password
+        in: body
+        name: Password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Sign in
+      tags:
+      - Auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Sign up new user, returns user and token
       parameters:
       - description: First name
         in: body
@@ -123,7 +151,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.User'
-      summary: Register new user
+      summary: Sign up new user
       tags:
       - Auth
 swagger: "2.0"

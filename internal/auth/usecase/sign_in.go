@@ -3,7 +3,6 @@ package usecase
 import (
 	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/models"
-	"boilerplate-clean-arch/pkg/httpErrors"
 	"boilerplate-clean-arch/pkg/utils"
 	"context"
 
@@ -29,6 +28,7 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (strin
 
 	// check if password is correct
 	if err = user.ComparePasswords(password); err != nil {
+		log.Errorf("Compare password failed: %v", err)
 		return "", utils.NewError(constants.ERROR_CODE_UNAUTHORIZED, constants.ERROR_MESSAGE_INVALID_EMAIL_OR_PASSWORD)
 	}
 	// end validation
