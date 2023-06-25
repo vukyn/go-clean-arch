@@ -20,30 +20,34 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*mode
 	// validation
 
 	// check if user already exists
-	user, err := a.userRepo.FindByEmail(ctx, &models.User{Email: email})
+	foundUser, err := a.userRepo.FindByEmail(ctx, email)
 	if err != nil {
+		log.Errorf("Error while finding user by email: %s", err)
+		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	if foundUser == nil {
 		log.Errorf("User not found with email: %v", err)
 		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_USER_NOT_FOUND)
 	}
 
 	// check if password is correct
-	if err = user.ComparePasswords(password); err != nil {
+	if err = foundUser.ComparePasswords(password); err != nil {
 		log.Errorf("Compare password failed: %v", err)
 		return nil, utils.NewError(constants.ERROR_CODE_UNAUTHORIZED, constants.ERROR_MESSAGE_INVALID_EMAIL_OR_PASSWORD)
 	}
 	// end validation
 
 	// generate token
-	token, err := utils.GenerateJWTToken(user, a.cfg)
+	token, err := utils.GenerateJWTToken(foundUser, a.cfg)
 	if err != nil {
 		log.Errorf("Cannot generate token: %v", err)
 		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
-	user.SanitizePassword()
+	foundUser.SanitizePassword()
 
 	// create session
 	_, err = a.sessRepo.CreateSession(ctx, "api:sign-in", &models.Session{
-		UserId: user.UserId,
+		UserId: foundUser.UserId,
 	}, a.cfg.Auth.Expire)
 	if err != nil {
 		log.Errorf("authUC.sessRepo.CreateSession: %v", err)
@@ -51,7 +55,7 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*mode
 	}
 
 	return &models.UserWithToken{
-		User:  user,
+		User:  foundUser,
 		Token: token,
 	}, nil
 }

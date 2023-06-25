@@ -20,8 +20,12 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	// validation
 
 	// check if user already exists
-	_, err := a.userRepo.FindByEmail(ctx, user)
-	if err == nil {
+	foundUser, err := a.userRepo.FindByEmail(ctx, user.Email)
+	if err != nil {
+		log.Errorf("Error while finding user by email: %s", err)
+		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	if foundUser != nil {
 		log.Errorf("User already exist with email: %v", err)
 		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_EMAIL_ALREADY_EXISTS)
 	}
@@ -33,7 +37,7 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	// end validation
 
 	// create new user
-	user, err = a.userRepo.SignUp(ctx, user.Parse())
+	_, err = a.userRepo.SignUp(ctx, user.Parse())
 	if err != nil {
 		log.Errorf("Error while creating new user: %s", err)
 		return nil, err

@@ -8,21 +8,22 @@ import (
 	"github.com/google/uuid"
 )
 
-func (a *authRepo) SignUp(ctx context.Context, user *models.User) (*models.User, error) {
+func (a *authRepo) SignUp(ctx context.Context, user *models.User) (int64, error) {
 
 	if user.Birthday.IsZero() {
 		user.Birthday = time.Now().Truncate(24 * time.Hour)
 	}
 
-	if result := a.db.Create(&user); result.Error != nil {
-		return nil, result.Error
+	if err := a.db.Create(&user).Error; err != nil {
+		return 0, err
 	}
-	return user, nil
+	return 1, nil
 }
 
-func (a *authRepo) FindByEmail(ctx context.Context, user *models.User) (*models.User, error) {
-	if result := a.db.Where("email = ?", user.Email).First(&user); result.Error != nil {
-		return nil, result.Error
+func (a *authRepo) FindByEmail(ctx context.Context, email string) (*models.User, error) {
+	user := &models.User{}
+	if err := a.db.Where("email = ?", email).Find(&user).Limit(1).Error; err != nil {
+		return nil, err
 	}
 	return user, nil
 }
