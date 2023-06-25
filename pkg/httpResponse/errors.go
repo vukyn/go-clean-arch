@@ -1,4 +1,4 @@
-package httpErrors
+package httpResponse
 
 import (
 	"boilerplate-clean-arch/internal/constants"
@@ -50,7 +50,7 @@ func NewRestError(status int, err string, cause interface{}) RestErr {
 func NewBadRequestError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusBadRequest,
-		ErrError:  constants.ERROR_CODE_BAD_REQUEST,
+		ErrError:  constants.STATUS_CODE_BAD_REQUEST,
 		ErrCause:  cause,
 	}
 }
@@ -59,7 +59,7 @@ func NewBadRequestError(cause interface{}) RestErr {
 func NewNotFoundError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusNotFound,
-		ErrError:  constants.ERROR_CODE_NOT_FOUND,
+		ErrError:  constants.STATUS_CODE_NOT_FOUND,
 		ErrCause:  cause,
 	}
 }
@@ -68,7 +68,7 @@ func NewNotFoundError(cause interface{}) RestErr {
 func NewUnauthorizedError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusUnauthorized,
-		ErrError:  constants.ERROR_CODE_UNAUTHORIZED,
+		ErrError:  constants.STATUS_CODE_UNAUTHORIZED,
 		ErrCause:  cause,
 	}
 }
@@ -77,7 +77,7 @@ func NewUnauthorizedError(cause interface{}) RestErr {
 func NewForbiddenError(cause interface{}) RestErr {
 	return RestError{
 		ErrStatus: http.StatusForbidden,
-		ErrError:  constants.ERROR_CODE_FORBIDDEN,
+		ErrError:  constants.STATUS_CODE_FORBIDDEN,
 		ErrCause:  cause,
 	}
 }
@@ -86,23 +86,23 @@ func NewForbiddenError(cause interface{}) RestErr {
 func NewInternalServerError(cause interface{}) RestErr {
 	result := RestError{
 		ErrStatus: http.StatusInternalServerError,
-		ErrError:  constants.ERROR_CODE_INTERNAL_SERVER,
+		ErrError:  constants.STATUS_CODE_INTERNAL_SERVER,
 		ErrCause:  cause,
 	}
 	return result
 }
 
 func ParseError(err error) RestErr {
-	if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
+	if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
 		return NewBadRequestError(utils.GetErrorMessage(err))
 	}
-	if strings.Contains(err.Error(), constants.ERROR_CODE_NOT_FOUND) {
+	if strings.Contains(err.Error(), constants.STATUS_CODE_NOT_FOUND) {
 		return NewNotFoundError(utils.GetErrorMessage(err))
 	}
-	if strings.Contains(err.Error(), constants.ERROR_CODE_UNAUTHORIZED) {
+	if strings.Contains(err.Error(), constants.STATUS_CODE_UNAUTHORIZED) {
 		return NewUnauthorizedError(utils.GetErrorMessage(err))
 	}
-	if strings.Contains(err.Error(), constants.ERROR_CODE_FORBIDDEN) {
+	if strings.Contains(err.Error(), constants.STATUS_CODE_FORBIDDEN) {
 		return NewForbiddenError(utils.GetErrorMessage(err))
 	}
 	return NewInternalServerError(utils.GetErrorMessage(err))

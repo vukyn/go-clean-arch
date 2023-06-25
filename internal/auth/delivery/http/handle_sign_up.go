@@ -3,7 +3,7 @@ package http
 import (
 	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/models"
-	"boilerplate-clean-arch/pkg/httpErrors"
+	"boilerplate-clean-arch/pkg/httpResponse"
 	"boilerplate-clean-arch/pkg/utils"
 	"net/http"
 	"strings"
@@ -35,17 +35,17 @@ func (h *authHandlers) SignUp() echo.HandlerFunc {
 		user := &models.User{}
 		if err := utils.ReadRequest(c, user); err != nil {
 			log.Error(err)
-			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
+			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
 
 		createdUser, err := h.authUC.SignUp(ctx, user)
 		if err != nil {
-			if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
-				return c.JSON(http.StatusOK, httpErrors.NewBadRequestError(utils.GetErrorMessage(err)))
+			if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
+				return c.JSON(http.StatusOK, httpResponse.NewBadRequestError(utils.GetErrorMessage(err)))
 			} else {
-				return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
+				return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 			}
 		}
-		return c.JSON(http.StatusCreated, createdUser)
+		return c.JSON(http.StatusCreated, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdUser))
 	}
 }

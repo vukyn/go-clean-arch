@@ -41,11 +41,11 @@ func (s *sessionRepo) CreateSession(ctx context.Context, prefix string, sess *mo
 	sessBytes, err := json.Marshal(&sess)
 	if err != nil {
 		log.Errorf("marshal failed: %s", err)
-		return "", utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_JSON_MARSHAL)
+		return "", utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_JSON_MARSHAL)
 	}
 	if err = s.redisClient.Set(ctx, sessionKey, sessBytes, (time.Second * time.Duration(expire))).Err(); err != nil {
 		log.Errorf("set redis failed: %s", err)
-		return "", utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+		return "", utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 	return sessionKey, nil
 }
@@ -56,13 +56,13 @@ func (s *sessionRepo) GetSessionByID(ctx context.Context, sessionId string) (*mo
 	sessBytes, err := s.redisClient.Get(ctx, sessionId).Bytes()
 	if err != nil {
 		log.Errorf("get redis failed: %s", err)
-		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 
 	sess := &models.Session{}
 	if err = json.Unmarshal(sessBytes, &sess); err != nil {
 		log.Errorf("unmarshal failed: %s", err)
-		return nil, utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_JSON_UNMARSHAL)
+		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_JSON_UNMARSHAL)
 	}
 	return sess, nil
 }
@@ -72,7 +72,7 @@ func (s *sessionRepo) DeleteByID(ctx context.Context, sessionId string) error {
 
 	if err := s.redisClient.Del(ctx, sessionId).Err(); err != nil {
 		log.Errorf("del redis failed: %s", err)
-		return utils.NewError(constants.ERROR_CODE_INTERNAL_SERVER, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+		return utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 	return nil
 }

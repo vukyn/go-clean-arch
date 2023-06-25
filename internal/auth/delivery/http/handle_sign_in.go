@@ -1,7 +1,7 @@
 package http
 
 import (
-	"boilerplate-clean-arch/pkg/httpErrors"
+	"boilerplate-clean-arch/pkg/httpResponse"
 	"boilerplate-clean-arch/pkg/utils"
 	"net/http"
 
@@ -31,14 +31,14 @@ func (h *authHandlers) SignIn() echo.HandlerFunc {
 		login := &Login{}
 		if err := utils.ReadRequest(c, login); err != nil {
 			log.Error(err)
-			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
+			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
 
 		userWithToken, err := h.authUC.SignIn(ctx, login.Email, login.Password)
 		if err != nil {
-			return c.JSON(http.StatusOK, httpErrors.ParseError(err))
+			return c.JSON(http.StatusOK, httpResponse.ParseError(err))
 		}
-		
-		return c.JSON(http.StatusOK, userWithToken)
+
+		return c.JSON(http.StatusOK, httpResponse.NewRestResponse(http.StatusOK, "Success", userWithToken))
 	}
 }

@@ -23,16 +23,16 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	foundUser, err := a.userRepo.FindByEmail(ctx, user.Email)
 	if err != nil {
 		log.Errorf("Error while finding user by email: %s", err)
-		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_INTERNAL_SERVER_ERROR)
+		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 	if foundUser != nil {
 		log.Errorf("User already exist with email: %v", err)
-		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_EMAIL_ALREADY_EXISTS)
+		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_EMAIL_ALREADY_EXISTS)
 	}
 
 	if user.Gender != "Male" && user.Gender != "Female" {
 		log.Errorf("Invalid gender type: %s", user.Gender)
-		return nil, utils.NewError(constants.ERROR_CODE_BAD_REQUEST, constants.ERROR_MESSAGE_INVALID_GENDER_TYPE)
+		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_INVALID_GENDER_TYPE)
 	}
 	// end validation
 

@@ -3,7 +3,7 @@ package http
 import (
 	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/models"
-	"boilerplate-clean-arch/pkg/httpErrors"
+	"boilerplate-clean-arch/pkg/httpResponse"
 	"boilerplate-clean-arch/pkg/utils"
 	"net/http"
 	"strings"
@@ -13,6 +13,7 @@ import (
 )
 
 // Create godoc
+//
 //	@Summary		Create todo
 //	@Description	Create todo handler
 //	@Tags			Todo
@@ -27,18 +28,18 @@ func (t todoHandlers) Create() echo.HandlerFunc {
 		todo := &models.Todo{}
 		if err := utils.ReadRequest(c, todo); err != nil {
 			log.Error(err)
-			return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
+			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
 
 		createdTodo, err := t.todoUC.Create(ctx, todo)
 		if err != nil {
-			if strings.Contains(err.Error(), constants.ERROR_CODE_BAD_REQUEST) {
-				return c.JSON(http.StatusOK, httpErrors.NewBadRequestError(utils.GetErrorMessage(err)))
+			if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
+				return c.JSON(http.StatusOK, httpResponse.NewBadRequestError(utils.GetErrorMessage(err)))
 			} else {
-				return c.JSON(http.StatusOK, httpErrors.NewInternalServerError(err))
+				return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 			}
 		}
 
-		return c.JSON(http.StatusCreated, createdTodo)
+		return c.JSON(http.StatusCreated, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdTodo))
 	}
 }
