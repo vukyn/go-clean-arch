@@ -8,7 +8,7 @@ import (
 	todoHttp "boilerplate-clean-arch/internal/todo/delivery/http"
 	todoRepository "boilerplate-clean-arch/internal/todo/repository"
 	todoUseCase "boilerplate-clean-arch/internal/todo/usecase"
-	sessionRepository "boilerplate-clean-arch/internal/session/repository"
+	apiMiddlewares "boilerplate-clean-arch/internal/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -20,16 +20,19 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 
 	// Init repositories
 	authRepo := authRepository.NewAuthRepository(s.db)
-	tRepo := todoRepository.NewTodoRepository(s.db)
-	sRepo := sessionRepository.NewSessionRepository(s.cfg, s.redisClient)
+	authRedisRepo := authRepository.NewAuthRedisRepo(s.redisClient)
+	todoRepo := todoRepository.NewTodoRepository(s.db)
 
 	// Init useCases
-	authUC := authUseCase.NewAuthUseCase(s.cfg, authRepo, sRepo)
-	todoUC := todoUseCase.NewTodoUseCase(tRepo)
+	authUC := authUseCase.NewAuthUseCase(s.cfg, authRepo, authRedisRepo)
+	todoUC := todoUseCase.NewTodoUseCase(todoRepo)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authUC)
 	todoHandlers := todoHttp.NewTodoHandlers(s.cfg, todoUC)
+
+	// Init middlewares
+	mw := apiMiddlewares.NewMiddlewareManager( s.cfg, authUC)
 
 	v1 := e.Group("/api/v1")
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
@@ -39,7 +42,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	todoGroup := v1.Group("/todo")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers)
-	todoHttp.MapTodoRoutes(todoGroup, todoHandlers)
+	todoHttp.MapTodoRoutes(todoGroup, todoHandlers, s.cfg, authUC, mw)
 
 	return nil
 }
