@@ -9,10 +9,6 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-//	func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.User, error) {
-//		log.Println("Function SignUp() is not implemented yet")
-//		return nil, nil
-//	}
 func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.User, error) {
 	log.SetPrefix("[SignUp]")
 	log.Infof("Sign up new user with params: {FirstName: %s, LastName: %s, Email: %s}", user.FirstName, user.LastName, user.Email)
@@ -20,7 +16,7 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	// validation
 
 	// check if user already exists
-	foundUser, err := a.userRepo.FindByEmail(ctx, user.Email)
+	foundUser, err := a.authRepo.FindByEmail(ctx, user.Email)
 	if err != nil {
 		log.Errorf("Error while finding user by email: %s", err)
 		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
@@ -37,7 +33,7 @@ func (a *authUseCase) SignUp(ctx context.Context, user *models.User) (*models.Us
 	// end validation
 
 	// create new user
-	_, err = a.userRepo.SignUp(ctx, user.Parse())
+	_, err = a.authRepo.SignUp(ctx, user.Parse())
 	if err != nil {
 		log.Errorf("Error while creating new user: %s", err)
 		return nil, err

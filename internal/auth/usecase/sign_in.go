@@ -9,10 +9,6 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-//	func (a *authUseCase) SignIn(ctx context.Context, username, password string) (string, error) {
-//		log.Println("Function SignIn() is not implemented yet")
-//		return nil, nil
-//	}
 func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*models.UserWithToken, error) {
 	log.SetPrefix("[SignIn]")
 	log.Infof("Sign in with user {Email: %s}", email)
@@ -20,7 +16,7 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*mode
 	// validation
 
 	// check if user already exists
-	foundUser, err := a.userRepo.FindByEmail(ctx, email)
+	foundUser, err := a.authRepo.FindByEmail(ctx, email)
 	if err != nil {
 		log.Errorf("Error while finding user by email: %s", err)
 		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
@@ -43,17 +39,15 @@ func (a *authUseCase) SignIn(ctx context.Context, email, password string) (*mode
 		log.Errorf("Cannot generate token: %v", err)
 		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
-	foundUser.SanitizePassword()
-
-	// create session
-	_, err = a.sessRepo.CreateSession(ctx, "api:sign-in", &models.Session{
-		UserId: foundUser.UserId,
-	}, a.cfg.Auth.Expire)
-	if err != nil {
-		log.Errorf("authUC.sessRepo.CreateSession: %v", err)
-		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
+	
+	// save to cache
+	if err = a.redisRepo.SetUser(ctx, a.GenerateUserKey(foundUser.UserId.String()), cacheDuration, foundUser); err != nil {
+		log.Errorf("authUC.GetByID.SetUserCtx: %v", err)
+		return nil, err
 	}
-
+	
+	foundUser.SanitizePassword()
+	
 	return &models.UserWithToken{
 		User:  foundUser,
 		Token: token,
