@@ -1,0 +1,28 @@
+package usecase
+
+import (
+	"boilerplate-clean-arch/internal/models"
+	"context"
+)
+
+// Create todo
+func (t *todoUseCase) Create(ctx context.Context, todo *models.Todo) (int64, error) {
+	
+	// user, err := utils.GetUserFromCtx(ctx)
+	// if err != nil {
+	// 	return nil, httpErrors.NewUnauthorizedError(errors.WithMessage(err, "newsUC.Create.GetUserFromCtx"))
+	// }
+
+	// news.AuthorID = user.UserID
+
+	// if err = utils.ValidateStruct(ctx, news); err != nil {
+	// 	return nil, httpErrors.NewBadRequestError(errors.WithMessage(err, "newsUC.Create.ValidateStruct"))
+	// }
+
+	res, err := t.todoRepo.Create(ctx, todo)
+	if err != nil {
+		return 0, err
+	}
+
+	return res, err
+}

@@ -148,9 +148,78 @@
                     }
                 }
             }
+        },
+        "/todo": {
+            "post": {
+                "description": "Create todo handler",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Create todo",
+                "parameters": [
+                    {
+                        "description": "Content",
+                        "name": "Content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Todo"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "models.Todo": {
+            "type": "object",
+            "required": [
+                "content",
+                "created_at",
+                "created_by"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "maxLength": 1024
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "update_by": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.User": {
             "type": "object",
             "required": [

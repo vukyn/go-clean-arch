@@ -1,5 +1,29 @@
 basePath: api/v1
 definitions:
+  models.Todo:
+    properties:
+      content:
+        maxLength: 1024
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: integer
+      update_by:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    required:
+    - content
+    - created_at
+    - created_by
+    type: object
   models.User:
     properties:
       about:
@@ -154,4 +178,26 @@ paths:
       summary: Sign up new user
       tags:
       - Auth
+  /todo:
+    post:
+      consumes:
+      - application/json
+      description: Create todo handler
+      parameters:
+      - description: Content
+        in: body
+        name: Content
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Todo'
+      summary: Create todo
+      tags:
+      - Todo
 swagger: "2.0"

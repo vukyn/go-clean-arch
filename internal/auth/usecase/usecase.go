@@ -15,8 +15,8 @@ type authUseCase struct {
 // Constructor
 func NewAuthUseCase(cfg *config.Config, userRepo auth.Repository, sessRepo session.SessRepository) auth.UseCase {
 	return &authUseCase{
-		cfg,
-		userRepo,
-		sessRepo,
+		cfg: 	cfg,
+		userRepo: userRepo,
+		sessRepo: sessRepo,
 	}
 }

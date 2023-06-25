@@ -10,7 +10,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
-	// _ "boilerplate-clean-arch/docs"
 )
 
 // SignUp godoc
