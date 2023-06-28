@@ -13,12 +13,12 @@ type RestRes interface {
 type RestResponse struct {
 	ResStatus  int         `json:"status,omitempty"`
 	ResMessage string      `json:"message,omitempty"`
-	Response   interface{} `json:"res,omitempty"`
+	Result     interface{} `json:"res,omitempty"`
 }
 
 // Response Message() interface method
 func (r RestResponse) Message() string {
-	return fmt.Sprintf("status: %d - message: %s - response: %v", r.ResStatus, r.ResMessage, r.Response)
+	return fmt.Sprintf("status: %d - message: %s - response: %v", r.ResStatus, r.ResMessage, r.Result)
 }
 
 // Response status
@@ -26,9 +26,9 @@ func (r RestResponse) Status() int {
 	return r.ResStatus
 }
 
-// Rest get Response
+// Rest get result
 func (r RestResponse) Res() interface{} {
-	return r.Response
+	return r.Result
 }
 
 // New Rest Response
@@ -36,6 +36,6 @@ func NewRestResponse(status int, message string, response interface{}) RestRes {
 	return RestResponse{
 		ResStatus:  status,
 		ResMessage: message,
-		Response:   response,
+		Result:     response,
 	}
 }

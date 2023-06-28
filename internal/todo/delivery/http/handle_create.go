@@ -40,6 +40,6 @@ func (t todoHandlers) Create() echo.HandlerFunc {
 			}
 		}
 
-		return c.JSON(http.StatusCreated, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdTodo))
+		return c.JSON(http.StatusOK, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdTodo))
 	}
 }

@@ -23,25 +23,25 @@ func (mw *MiddlewareManager) AuthJWTMiddleware(cfg *config.Config, authUC auth.U
 		return func(c echo.Context) error {
 			bearerHeader := c.Request().Header.Get("Authorization")
 
-			log.Infof("auth middleware bearerHeader %s", bearerHeader)
-
 			if bearerHeader != "" {
+				log.Infof("auth middleware bearerHeader %s", bearerHeader)
 				headerParts := strings.Split(bearerHeader, " ")
 				if len(headerParts) != 2 {
 					log.Errorf("auth middleware: %s", len(headerParts) != 2)
 					return c.JSON(http.StatusOK, httpResponse.NewUnauthorizedError(nil))
 				}
-
 				tokenString := headerParts[1]
 
 				if err := mw.validateJWTToken(c, cfg, tokenString, authUC); err != nil {
-					log.Error("middleware validateJWTToken: %s", err.Error())
+					log.Errorf("middleware validateJWTToken: %s", err.Error())
 					return c.JSON(http.StatusUnauthorized, httpResponse.NewUnauthorizedError(nil))
 				}
 
 				return next(c)
+			} else {
+				log.Errorf("Invalid Authorization header")
+				return c.JSON(http.StatusOK, httpResponse.NewUnauthorizedError(nil))
 			}
-			return next(c)
 		}
 	}
 }

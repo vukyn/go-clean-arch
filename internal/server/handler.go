@@ -5,13 +5,13 @@ import (
 	authHttp "boilerplate-clean-arch/internal/auth/delivery/http"
 	authRepository "boilerplate-clean-arch/internal/auth/repository"
 	authUseCase "boilerplate-clean-arch/internal/auth/usecase"
+	apiMiddlewares "boilerplate-clean-arch/internal/middleware"
 	todoHttp "boilerplate-clean-arch/internal/todo/delivery/http"
 	todoRepository "boilerplate-clean-arch/internal/todo/repository"
 	todoUseCase "boilerplate-clean-arch/internal/todo/usecase"
-	apiMiddlewares "boilerplate-clean-arch/internal/middleware"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/gommon/log"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
@@ -32,17 +32,21 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	todoHandlers := todoHttp.NewTodoHandlers(s.cfg, todoUC)
 
 	// Init middlewares
-	mw := apiMiddlewares.NewMiddlewareManager( s.cfg, authUC)
+	mw := apiMiddlewares.NewMiddlewareManager(s.cfg, authUC)
 
 	v1 := e.Group("/api/v1")
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.Use(middleware.Logger())
+	// e.Use(middleware.Logger())
 
 	authGroup := v1.Group("/auth")
 	todoGroup := v1.Group("/todo")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers)
 	todoHttp.MapTodoRoutes(todoGroup, todoHandlers, s.cfg, authUC, mw)
+
+	if s.cfg.Server.Debug {
+		log.SetLevel(log.DEBUG)
+	}
 
 	return nil
 }

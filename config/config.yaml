@@ -7,7 +7,7 @@ server:
     WriteTimeout: 5
     SSL: false
     CtxDefaultTimeout: 12
-    Debug: false
+    Debug: true
 
 postgreSQL:
     Host: localhost
