@@ -21,10 +21,10 @@ type PostgreSQLConfig struct {
 }
 
 type RedisConfig struct {
-	Host        string
-	Port        int
-	PoolSize    int
-	PoolTimeout int
+	Host         string
+	Port         int
+	PoolSize     int
+	PoolTimeout  int
 	MinIdleConns int
 }
 
