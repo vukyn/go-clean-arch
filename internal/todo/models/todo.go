@@ -2,7 +2,6 @@ package models
 
 import (
 	commonModel "boilerplate-clean-arch/internal/models"
-	"time"
 )
 
 type RequestList struct {
@@ -25,17 +24,17 @@ func (r *RequestList) ToMap() map[string]interface{} {
 }
 
 type TodoResponse struct {
-	Id        int
-	Content   string
-	CreatedBy int
-	CreatedAt time.Time
-	UpdateBy  int
-	UpdatedAt time.Time
+	Id        int    `json:"id"`
+	Content   string `json:"content,omitempty"`
+	CreatedBy int    `json:"created_by,omitempty"`
+	CreatedAt string `json:"created_at,omitempty"`
+	UpdateBy  int    `json:"update_by,omitempty"`
+	UpdatedAt string `json:"updated_at,omitempty"`
 }
 
 type SaveRequest struct {
-	Id      int64
-	Content string
+	Id      int64  `json:"id"`
+	Content string `json:"content"`
 }
 
 type ListPaging struct {

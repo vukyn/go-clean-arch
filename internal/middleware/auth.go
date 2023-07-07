@@ -68,12 +68,12 @@ func (mw *MiddlewareManager) validateJWTToken(c echo.Context, tokenString string
 			return errors.New(constants.STATUS_MESSAGE_INVALID_JWT_TOKEN)
 		}
 
-		u, err := mw.authRepo.GetById(c.Request().Context(), int(userId))
+		user, err := mw.authRepo.GetById(c.Request().Context(), int(userId))
 		if err != nil {
 			return err
 		}
 
-		c.Set("user", u)
+		c.Set("user", user.Export())
 	}
 	return nil
 }
