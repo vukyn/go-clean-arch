@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"boilerplate-clean-arch/config"
 	"boilerplate-clean-arch/internal/auth/models"
 	"time"
 
@@ -17,18 +16,18 @@ type Claims struct {
 }
 
 // Generate new JWT Token
-func GenerateJWTToken(user *models.UserResponse, config *config.Config) (string, error) {
+func GenerateJWTToken(user *models.UserResponse, secret string, ttl int) (string, error) {
 	claims := Claims{
 		Id:    user.Id,
 		Email: user.Email,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 2).Unix(),
+			ExpiresAt: time.Now().Add(time.Second * time.Duration(ttl)).Unix(),
 		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString([]byte(config.Auth.JWTSecret))
+	return token.SignedString([]byte(secret))
 }
 
 func ComparePasswords(hashedPwd string, plainPwd string) error {
