@@ -4,8 +4,8 @@ import "github.com/labstack/echo/v4"
 
 // Auth HTTP Handlers interface
 type Handlers interface {
-	SignIn() echo.HandlerFunc
-	SignUp() echo.HandlerFunc
+	Login() echo.HandlerFunc
+	Register() echo.HandlerFunc
 	// Logout() echo.HandlerFunc
 	// Update() echo.HandlerFunc
 	// Delete() echo.HandlerFunc

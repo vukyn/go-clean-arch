@@ -16,7 +16,7 @@ type repo struct {
 }
 
 // Constructor
-func NewTodoRepository(db *gorm.DB) IRepository {
+func NewRepo(db *gorm.DB) IRepository {
 	return &repo{
 		db: db,
 	}
