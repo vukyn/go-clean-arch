@@ -32,7 +32,6 @@ type ServerConfig struct {
 	AppVersion        string
 	Port              int
 	Mode              string
-	JwtSecretKey      string
 	ReadTimeout       time.Duration
 	WriteTimeout      time.Duration
 	SSL               bool

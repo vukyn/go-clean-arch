@@ -26,7 +26,6 @@ func GenerateJWTToken(user *models.UserResponse, secret string, ttl int) (string
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 	return token.SignedString([]byte(secret))
 }
 
