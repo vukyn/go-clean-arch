@@ -1,18 +1,59 @@
 package http
 
 import (
-	"boilerplate-clean-arch/internal/todo"
 	"boilerplate-clean-arch/config"
+	"boilerplate-clean-arch/internal/constants"
+	"boilerplate-clean-arch/internal/todo/models"
+	"boilerplate-clean-arch/internal/todo/usecase"
+	"boilerplate-clean-arch/pkg/httpResponse"
+	"boilerplate-clean-arch/pkg/utils"
+	"net/http"
+	"strings"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 )
 
-type todoHandlers struct {
-	cfg    *config.Config
-	todoUC todo.UseCase
+type Handler struct {
+	cfg     *config.Config
+	usecase usecase.IUseCase
 }
 
-func NewTodoHandlers(cfg *config.Config, todoUC todo.UseCase) todo.Handlers {
-	return &todoHandlers{
-		cfg:    cfg,
-		todoUC: todoUC,
+func NewTodoHandlers(cfg *config.Config, usecase usecase.IUseCase) Handler {
+	return Handler{
+		cfg:     cfg,
+		usecase: usecase,
+	}
+}
+
+// Create godoc
+//
+//	@Summary		Create todo
+//	@Description	Create todo handler
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			Content	body		string	true	"Content"
+//	@Success		201		{object}	models.Todo
+//	@Router			/todo [post]
+func (h Handler) Create() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		ctx := utils.GetRequestCtx(c)
+		todo := &models.SaveRequest{}
+		if err := utils.ReadRequest(c, todo); err != nil {
+			log.Error(err)
+			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
+		}
+
+		createdTodo, err := h.usecase.Create(ctx, 1, todo)
+		if err != nil {
+			if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
+				return c.JSON(http.StatusOK, httpResponse.NewBadRequestError(utils.GetErrorMessage(err)))
+			} else {
+				return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
+			}
+		}
+
+		return c.JSON(http.StatusOK, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdTodo))
 	}
 }
