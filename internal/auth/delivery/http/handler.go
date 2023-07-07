@@ -73,8 +73,8 @@ func (h Handler) Login() echo.HandlerFunc {
 
 // Register godoc
 //
-//	@Summary		Register user
-//	@Description	Register user, returns user and token
+//	@Summary		Create new user
+//	@Description	Create new user, returns user and token
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json

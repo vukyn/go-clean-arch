@@ -1,4 +1,4 @@
-basePath: api/v1
+basePath: /api/v1
 definitions:
   models.TodoResponse:
     properties:
@@ -101,7 +101,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Register user, returns user and token
+      description: Create new user, returns user and token
       parameters:
       - description: First name
         in: body
@@ -155,7 +155,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.UserResponse'
-      summary: Register user
+      summary: Create new user
       tags:
       - Auth
   /todo:

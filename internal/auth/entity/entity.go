@@ -13,8 +13,8 @@ import (
 type User struct {
 	Id          int       `gorm:"primarykey;column:id" json:"id" redis:"id"`
 	UserId      uuid.UUID `gorm:"column:user_id" json:"user_id" redis:"user_id" validate:"omitempty"`
-	FirstName   string    `gorm:"column:first_name" json:"first_name" redis:"first_name" validate:"required,lte=30"`
-	LastName    string    `gorm:"column:last_name" json:"last_name" redis:"last_name" validate:"required,lte=30"`
+	FirstName   string    `gorm:"column:first_name;default:(-)" json:"first_name" redis:"first_name" validate:"required,lte=30"`
+	LastName    string    `gorm:"column:last_name;default:(-)" json:"last_name" redis:"last_name" validate:"required,lte=30"`
 	Email       string    `gorm:"column:email" json:"email,omitempty" redis:"email" validate:"omitempty,lte=60,email"`
 	Password    string    `gorm:"column:password" json:"password,omitempty" redis:"password" validate:"omitempty,required,gte=6"`
 	Role        string    `gorm:"column:role;default:(-)" json:"role,omitempty" redis:"role" validate:"omitempty,lte=10"`

@@ -11,7 +11,7 @@
         "version": "1.0"
     },
     "host": "localhost:5001",
-    "basePath": "api/v1",
+    "basePath": "/api/v1",
     "paths": {
         "/auth/login": {
             "post": {
@@ -58,7 +58,7 @@
         },
         "/auth/register": {
             "post": {
-                "description": "Register user, returns user and token",
+                "description": "Create new user, returns user and token",
                 "consumes": [
                     "application/json"
                 ],
@@ -68,7 +68,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register user",
+                "summary": "Create new user",
                 "parameters": [
                     {
                         "description": "First name",

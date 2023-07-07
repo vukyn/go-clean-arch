@@ -49,7 +49,7 @@ func (u *usecase) Register(ctx context.Context, params *models.SaveRequest) (*mo
 		log.Errorf("Error while finding user by email: %s", err)
 		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
-	if foundUser != nil {
+	if foundUser.Id != 0 {
 		log.Errorf("User already exist with email: %v", err)
 		return nil, utils.NewError(constants.STATUS_CODE_BAD_REQUEST, constants.STATUS_MESSAGE_EMAIL_ALREADY_EXISTS)
 	}

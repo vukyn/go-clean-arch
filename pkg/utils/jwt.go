@@ -22,7 +22,7 @@ func GenerateJWTToken(user *models.UserResponse, config *config.Config) (string,
 		Id:    user.Id,
 		Email: user.Email,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 2).Unix(),
 		},
 	}
 

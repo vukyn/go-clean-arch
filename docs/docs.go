@@ -64,7 +64,7 @@ const docTemplate = `{
         },
         "/auth/register": {
             "post": {
-                "description": "Register user, returns user and token",
+                "description": "Create new user, returns user and token",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,7 +74,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Register user",
+                "summary": "Create new user",
                 "parameters": [
                     {
                         "description": "First name",
@@ -289,7 +289,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:5001",
-	BasePath:         "api/v1",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Clean Architecture API",
 	Description:      "Example Golang REST API.",
