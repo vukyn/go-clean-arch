@@ -20,14 +20,14 @@ func (t *Todo) TableName() string {
 	return "todos"
 }
 
-func (a *Todo) Export() *models.Response {
-	obj := &models.Response{}
+func (a *Todo) Export() *models.TodoResponse {
+	obj := &models.TodoResponse{}
 	copier.Copy(obj, a) //nolint
 	return obj
 }
 
-func (a *Todo) ExportList(in []*Todo) []*models.Response {
-	objs := make([]*models.Response, 0)
+func (a *Todo) ExportList(in []*Todo) []*models.TodoResponse {
+	objs := make([]*models.TodoResponse, 0)
 	for _, v := range in {
 		objs = append(objs, v.Export())
 	}

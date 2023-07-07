@@ -19,9 +19,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/sign-in": {
+        "/auth/login": {
             "post": {
-                "description": "Sign in and return token",
+                "description": "Login and return token",
                 "consumes": [
                     "application/json"
                 ],
@@ -31,7 +31,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Sign in",
+                "summary": "Login",
                 "parameters": [
                     {
                         "description": "Email",
@@ -56,15 +56,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.UserWithToken"
                         }
                     }
                 }
             }
         },
-        "/auth/sign-up": {
+        "/auth/register": {
             "post": {
-                "description": "Sign up new user, returns user and token",
+                "description": "Register user, returns user and token",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,7 +74,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Sign up new user",
+                "summary": "Register user",
                 "parameters": [
                     {
                         "description": "First name",
@@ -150,7 +150,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/models.UserResponse"
                         }
                     }
                 }
@@ -184,7 +184,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Todo"
+                            "$ref": "#/definitions/models.TodoResponse"
                         }
                     }
                 }
@@ -192,115 +192,93 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Todo": {
+        "models.TodoResponse": {
             "type": "object",
-            "required": [
-                "content",
-                "created_at",
-                "created_by"
-            ],
             "properties": {
                 "content": {
-                    "type": "string",
-                    "maxLength": 1024
-                },
-                "created_at": {
                     "type": "string"
                 },
-                "created_by": {
+                "createdAt": {
                     "type": "string"
+                },
+                "createdBy": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "update_by": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/models.User"
-                },
-                "user_id": {
+                "updateBy": {
                     "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },
-        "models.User": {
+        "models.UserResponse": {
             "type": "object",
-            "required": [
-                "first_name",
-                "last_name",
-                "password"
-            ],
             "properties": {
                 "about": {
-                    "type": "string",
-                    "maxLength": 1024
+                    "type": "string"
                 },
                 "address": {
-                    "type": "string",
-                    "maxLength": 250
+                    "type": "string"
                 },
                 "avatar": {
-                    "type": "string",
-                    "maxLength": 512
+                    "type": "string"
                 },
                 "birthday": {
-                    "type": "string",
-                    "maxLength": 10
+                    "type": "string"
                 },
                 "city": {
-                    "type": "string",
-                    "maxLength": 24
+                    "type": "string"
                 },
                 "country": {
-                    "type": "string",
-                    "maxLength": 24
+                    "type": "string"
                 },
-                "created_at": {
+                "createdAt": {
                     "type": "string"
                 },
                 "email": {
-                    "type": "string",
-                    "maxLength": 60
+                    "type": "string"
                 },
-                "first_name": {
-                    "type": "string",
-                    "maxLength": 30
+                "firstName": {
+                    "type": "string"
                 },
                 "gender": {
-                    "type": "string",
-                    "maxLength": 10
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "last_name": {
-                    "type": "string",
-                    "maxLength": 30
-                },
-                "login_date": {
+                "lastName": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string",
-                    "minLength": 6
+                "loginDate": {
+                    "type": "string"
                 },
-                "phone_number": {
-                    "type": "string",
-                    "maxLength": 20
+                "phoneNumber": {
+                    "type": "string"
                 },
                 "role": {
-                    "type": "string",
-                    "maxLength": 10
-                },
-                "updated_at": {
                     "type": "string"
                 },
-                "user_id": {
+                "updatedAt": {
                     "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserWithToken": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.UserResponse"
                 }
             }
         }
@@ -310,7 +288,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
+	Host:             "localhost:5001",
 	BasePath:         "api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Clean Architecture API",

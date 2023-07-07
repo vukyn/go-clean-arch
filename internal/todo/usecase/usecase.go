@@ -17,13 +17,13 @@ type usecase struct {
 }
 
 // Constructor
-func NewTodoUseCase(repo repository.IRepository) IUseCase {
+func NewUseCase(repo repository.IRepository) IUseCase {
 	return &usecase{
 		repo: repo,
 	}
 }
 
-func (u *usecase) GetById(ctx context.Context, id int) (*models.Response, error) {
+func (u *usecase) GetById(ctx context.Context, id int) (*models.TodoResponse, error) {
 	record, err := u.repo.GetById(ctx, id)
 	if err != nil {
 		log.Errorf("usecase.repo.GetById: %v", err)
@@ -32,7 +32,7 @@ func (u *usecase) GetById(ctx context.Context, id int) (*models.Response, error)
 	return record.Export(), nil
 }
 
-func (u *usecase) GetList(ctx context.Context, params *models.RequestList) ([]*models.Response, error) {
+func (u *usecase) GetList(ctx context.Context, params *models.RequestList) ([]*models.TodoResponse, error) {
 	queries := params.ToMap()
 	records, err := u.repo.GetList(ctx, queries)
 	if err != nil {
@@ -65,7 +65,7 @@ func (u *usecase) GetListPaging(ctx context.Context, params *models.RequestList)
 	}, nil
 }
 
-func (u *usecase) GetOne(ctx context.Context, params *models.RequestList) (*models.Response, error) {
+func (u *usecase) GetOne(ctx context.Context, params *models.RequestList) (*models.TodoResponse, error) {
 	queries := params.ToMap()
 	record, err := u.repo.GetOne(ctx, queries)
 	if err != nil {
@@ -75,7 +75,7 @@ func (u *usecase) GetOne(ctx context.Context, params *models.RequestList) (*mode
 	return record.Export(), nil
 }
 
-func (u *usecase) Create(ctx context.Context, userId int, params *models.SaveRequest) (*models.Response, error) {
+func (u *usecase) Create(ctx context.Context, userId int, params *models.SaveRequest) (*models.TodoResponse, error) {
 	obj := &entity.Todo{}
 	obj.ParseForCreate(params, userId)
 	res, err := u.repo.Create(ctx, obj)
@@ -96,7 +96,7 @@ func (u *usecase) CreateMany(ctx context.Context, userId int, params []*models.S
 	return res, nil
 }
 
-func (u *usecase) Update(ctx context.Context, userId int, params *models.SaveRequest) (*models.Response, error) {
+func (u *usecase) Update(ctx context.Context, userId int, params *models.SaveRequest) (*models.TodoResponse, error) {
 	obj := &entity.Todo{}
 	obj.ParseForUpdate(params, userId)
 	res, err := u.repo.Update(ctx, obj)

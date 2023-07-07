@@ -24,7 +24,7 @@ func (r *RequestList) ToMap() map[string]interface{} {
 	}
 }
 
-type Response struct {
+type TodoResponse struct {
 	Id        int
 	Content   string
 	CreatedBy int
@@ -40,5 +40,5 @@ type SaveRequest struct {
 
 type ListPaging struct {
 	commonModel.ListPaging
-	Records []*Response
+	Records []*TodoResponse
 }

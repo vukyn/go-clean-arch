@@ -3,6 +3,7 @@ package http
 import (
 	"boilerplate-clean-arch/config"
 	"boilerplate-clean-arch/internal/constants"
+	"boilerplate-clean-arch/internal/middleware"
 	"boilerplate-clean-arch/internal/todo/models"
 	"boilerplate-clean-arch/internal/todo/usecase"
 	"boilerplate-clean-arch/pkg/httpResponse"
@@ -17,13 +18,25 @@ import (
 type Handler struct {
 	cfg     *config.Config
 	usecase usecase.IUseCase
+	mw      *middleware.MiddlewareManager
 }
 
-func NewTodoHandlers(cfg *config.Config, usecase usecase.IUseCase) Handler {
+func NewHandler(cfg *config.Config, usecase usecase.IUseCase, mw *middleware.MiddlewareManager) Handler {
 	return Handler{
 		cfg:     cfg,
 		usecase: usecase,
+		mw:      mw,
 	}
+}
+
+// Map todo routes
+func (h Handler) MapTodoRoutes(todoGroup *echo.Group) {
+	todoGroup.POST("", h.Create(), h.mw.AuthJWTMiddleware())
+	// newsGroup.PUT("/:news_id", h.Update(), mw.AuthSessionMiddleware, mw.CSRF)
+	// newsGroup.DELETE("/:news_id", h.Delete(), mw.AuthSessionMiddleware, mw.CSRF)
+	// newsGroup.GET("/:news_id", h.GetByID())
+	// newsGroup.GET("/search", h.SearchByTitle())
+	// newsGroup.GET("", h.GetNews())
 }
 
 // Create godoc
@@ -34,7 +47,7 @@ func NewTodoHandlers(cfg *config.Config, usecase usecase.IUseCase) Handler {
 //	@Accept			json
 //	@Produce		json
 //	@Param			Content	body		string	true	"Content"
-//	@Success		201		{object}	models.Todo
+//	@Success		201		{object}	models.TodoResponse
 //	@Router			/todo [post]
 func (h Handler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {

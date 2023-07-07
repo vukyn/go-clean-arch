@@ -22,6 +22,7 @@ import (
 //	@contact.email	vukynpro@gmailcom
 
 //	@BasePath	api/v1
+//	@host		localhost:5001
 func main() {
 	log.Info("Starting api server")
 

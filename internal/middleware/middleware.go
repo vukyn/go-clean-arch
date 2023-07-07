@@ -2,19 +2,19 @@ package middleware
 
 import (
 	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/internal/auth"
+	authRepo "boilerplate-clean-arch/internal/auth/repository"
 )
 
 // Middleware manager
 type MiddlewareManager struct {
 	cfg    *config.Config
-	authUC auth.UseCase
+	authRepo authRepo.IRepository
 }
 
 // Middleware manager constructor
-func NewMiddlewareManager(cfg *config.Config, authUC auth.UseCase) *MiddlewareManager {
+func NewMiddlewareManager(cfg *config.Config, authRepo authRepo.IRepository) *MiddlewareManager {
 	return &MiddlewareManager{
 		cfg:    cfg,
-		authUC: authUC,
+		authRepo: authRepo,
 	}
 }
