@@ -21,10 +21,10 @@ type PostgreSQLConfig struct {
 }
 
 type RedisConfig struct {
-	Host        string
-	Port        int
-	PoolSize    int
-	PoolTimeout int
+	Host         string
+	Port         int
+	PoolSize     int
+	PoolTimeout  int
 	MinIdleConns int
 }
 
@@ -32,7 +32,6 @@ type ServerConfig struct {
 	AppVersion        string
 	Port              int
 	Mode              string
-	JwtSecretKey      string
 	ReadTimeout       time.Duration
 	WriteTimeout      time.Duration
 	SSL               bool

@@ -29,8 +29,7 @@ func NewUseCase(cfg *config.Config, repo repository.IRepository, redisRepo repos
 }
 
 const (
-	basePrefix    = "api-auth:"
-	cacheDuration = 3600
+	basePrefix = "api-auth:"
 )
 
 func (u *usecase) GenerateUserKey(userId int) string {
@@ -75,7 +74,7 @@ func (u *usecase) Register(ctx context.Context, params *models.SaveRequest) (*mo
 
 func (u *usecase) Login(ctx context.Context, params *models.LoginRequest) (*models.UserWithToken, error) {
 	log.SetPrefix("[Login]")
-	log.Infof("Sign in with user {Email: %s}", params.Email)
+	log.Infof("Sign in with user {Email: %v}", params.Email)
 
 	// validation
 
@@ -98,14 +97,14 @@ func (u *usecase) Login(ctx context.Context, params *models.LoginRequest) (*mode
 	// end validation
 
 	// generate token
-	token, err := utils.GenerateJWTToken(foundUser.Export(), u.cfg)
+	token, err := utils.GenerateJWTToken(foundUser.Export(), u.cfg.Auth.JWTSecret, u.cfg.Auth.Expire)
 	if err != nil {
 		log.Errorf("Cannot generate token: %v", err)
 		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, constants.STATUS_MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 
 	// save to cache
-	if err = u.redisRepo.SetUser(ctx, u.GenerateUserKey(foundUser.Id), cacheDuration, foundUser); err != nil {
+	if err = u.redisRepo.SetUser(ctx, u.GenerateUserKey(foundUser.Id), u.cfg.Auth.Expire, foundUser); err != nil {
 		log.Errorf("usecase.redisRepo.SetUser: %v", err)
 		return nil, err
 	}
@@ -116,30 +115,4 @@ func (u *usecase) Login(ctx context.Context, params *models.LoginRequest) (*mode
 		User:  foundUser.Export(),
 		Token: token,
 	}, nil
-}
-
-func (u *usecase) GetById(ctx context.Context, userId int) (*models.UserResponse, error) {
-
-	cachedUser, err := u.redisRepo.GetById(ctx, u.GenerateUserKey(userId))
-	if err != nil {
-		log.Errorf("usecase.redisRepo.GetById: %v", err)
-		return nil, err
-	}
-	if cachedUser != nil {
-		return cachedUser.Export(), nil
-	}
-
-	user, err := u.repo.GetById(ctx, userId)
-	if err != nil {
-		return nil, err
-	}
-
-	if err = u.redisRepo.SetUser(ctx, u.GenerateUserKey(userId), cacheDuration, user); err != nil {
-		log.Errorf("usecase.redisRepo.SetUser: %v", err)
-		return nil, err
-	}
-
-	user.SanitizePassword()
-
-	return user.Export(), nil
 }

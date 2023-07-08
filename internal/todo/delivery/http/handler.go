@@ -2,6 +2,7 @@ package http
 
 import (
 	"boilerplate-clean-arch/config"
+	userModel "boilerplate-clean-arch/internal/auth/models"
 	"boilerplate-clean-arch/internal/constants"
 	"boilerplate-clean-arch/internal/middleware"
 	"boilerplate-clean-arch/internal/todo/models"
@@ -57,8 +58,8 @@ func (h Handler) Create() echo.HandlerFunc {
 			log.Error(err)
 			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
-
-		createdTodo, err := h.usecase.Create(ctx, 1, todo)
+		user := c.Get("user").(*userModel.UserResponse)
+		createdTodo, err := h.usecase.Create(ctx, user.Id, todo)
 		if err != nil {
 			if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
 				return c.JSON(http.StatusOK, httpResponse.NewBadRequestError(utils.GetErrorMessage(err)))

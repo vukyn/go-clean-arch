@@ -198,19 +198,19 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "createdBy": {
+                "created_by": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "updateBy": {
+                "update_by": {
                     "type": "integer"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -227,22 +227,16 @@ const docTemplate = `{
                 "avatar": {
                     "type": "string"
                 },
-                "birthday": {
-                    "type": "string"
-                },
                 "city": {
                     "type": "string"
                 },
                 "country": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "string"
-                },
                 "email": {
                     "type": "string"
                 },
-                "firstName": {
+                "first_name": {
                     "type": "string"
                 },
                 "gender": {
@@ -251,22 +245,16 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "lastName": {
+                "last_name": {
                     "type": "string"
                 },
-                "loginDate": {
-                    "type": "string"
-                },
-                "phoneNumber": {
+                "phone_number": {
                     "type": "string"
                 },
                 "role": {
                     "type": "string"
                 },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "userId": {
+                "user_id": {
                     "type": "string"
                 }
             }

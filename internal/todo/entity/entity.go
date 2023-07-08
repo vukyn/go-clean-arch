@@ -23,6 +23,12 @@ func (t *Todo) TableName() string {
 func (a *Todo) Export() *models.TodoResponse {
 	obj := &models.TodoResponse{}
 	copier.Copy(obj, a) //nolint
+	if !a.CreatedAt.IsZero() {
+		obj.CreatedAt = a.CreatedAt.Format(time.RFC3339)
+	}
+	if !a.UpdatedAt.IsZero() {
+		obj.UpdatedAt = a.UpdatedAt.Format(time.RFC3339)
+	}
 	return obj
 }
 
