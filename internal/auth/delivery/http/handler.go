@@ -19,7 +19,7 @@ type Handler struct {
 	usecase usecase.IUseCase
 }
 
-func NewHandler(cfg *config.Config, usecase usecase.IUseCase) Handler {
+func NewHandler(cfg *config.Config, usecase usecase.IUseCase) IHandler {
 	return Handler{
 		cfg:     cfg,
 		usecase: usecase,
@@ -57,7 +57,7 @@ func (h Handler) Login() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := utils.GetRequestCtx(c)
 		params := &models.LoginRequest{}
-		if err := utils.ReadRequest(c, params); err != nil {
+		if err := utils.ReadBodyRequest(c, params); err != nil {
 			log.Error(err)
 			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
@@ -92,7 +92,7 @@ func (h Handler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := utils.GetRequestCtx(c)
 		user := &models.SaveRequest{}
-		if err := utils.ReadRequest(c, user); err != nil {
+		if err := utils.ReadBodyRequest(c, user); err != nil {
 			log.Error(err)
 			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}

@@ -10,8 +10,8 @@ migrate:
 tidy:
 	go mod tidy
 
-gen-doc:
+doc:
 	echo "Starting swagger generating"
 	swag fmt
-	swag init -g cmd/main.go
+	swag init -g cmd/main.go --pd
 

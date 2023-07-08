@@ -42,7 +42,7 @@ func (u *usecase) GetList(ctx context.Context, params *models.RequestList) ([]*m
 	return (&entity.Todo{}).ExportList(records), nil
 }
 
-func (u *usecase) GetListPaging(ctx context.Context, params *models.RequestList) (*models.ListPaging, error) {
+func (u *usecase) GetListPaging(ctx context.Context, params *models.RequestList) (*models.TodoListPaging, error) {
 	queries := params.ToMap()
 	records, err := u.repo.GetListPaging(ctx, queries)
 	if err != nil {
@@ -55,7 +55,7 @@ func (u *usecase) GetListPaging(ctx context.Context, params *models.RequestList)
 		return nil, utils.NewError(constants.STATUS_CODE_INTERNAL_SERVER, "Error when get list todo")
 	}
 
-	return &models.ListPaging{
+	return &models.TodoListPaging{
 		ListPaging: commonModel.ListPaging{
 			Page:  params.Page,
 			Size:  params.Size,

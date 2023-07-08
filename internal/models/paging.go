@@ -1,10 +1,10 @@
 package models
 
 type RequestPaging struct {
-	Page    int
-	Size    int
-	SortBy  string
-	OrderBy string
+	Page    int    `json:"page"`
+	Size    int    `json:"size"`
+	SortBy  string `json:"sort_by"`
+	OrderBy string `json:"order_by"`
 }
 
 type ListPaging struct {

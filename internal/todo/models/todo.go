@@ -6,9 +6,9 @@ import (
 
 type RequestList struct {
 	commonModel.RequestPaging
-	FromDate  int64
-	ToDate    int64
-	CreatedBy int64
+	FromDate  int	`json:"from_date"`
+	ToDate    int	`json:"to_date"`
+	CreatedBy int	`json:"created_by"`
 }
 
 func (r *RequestList) ToMap() map[string]interface{} {
@@ -37,7 +37,7 @@ type SaveRequest struct {
 	Content string `json:"content"`
 }
 
-type ListPaging struct {
+type TodoListPaging struct {
 	commonModel.ListPaging
 	Records []*TodoResponse
 }

@@ -11,6 +11,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 //	@title			Swagger Clean Architecture API
@@ -21,16 +22,30 @@ import (
 //	@contact.url	https://github.com/vukyn
 //	@contact.email	vukynpro@gmailcom
 
-//	@BasePath	/api/v1
-//	@host		localhost:5001
+// @BasePath	/api/v1
+// @host		localhost:5001
 func main() {
 	log.Info("Starting api server")
 
 	cfg := config.GetConfig()
 
+	// Init Logger
+	newLogger := logger.New(
+		log.New("GORM:"), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second,   // Slow SQL threshold
+			LogLevel:                  logger.Silent, // Log level
+			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+			ParameterizedQueries:      true,          // Don't include params in the SQL log
+			Colorful:                  false,         // Disable color
+		},
+	)
+
 	// Init Postgresql
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", cfg.PostgreSQL.Host, cfg.PostgreSQL.User, cfg.PostgreSQL.Password, cfg.PostgreSQL.DBName, cfg.PostgreSQL.Port)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		log.Fatalf("Postgresql init: %s", err)
 	}

@@ -22,12 +22,8 @@ func NewRepo(db *gorm.DB) IRepository {
 	}
 }
 
-func (r *repo) dbWithContext(ctx context.Context) *gorm.DB {
-	return r.db.WithContext(ctx)
-}
-
 func (r *repo) Create(ctx context.Context, obj *entity.Todo) (*entity.Todo, error) {
-	result := r.dbWithContext(ctx).Create(obj)
+	result := r.db.Create(obj)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -35,7 +31,7 @@ func (r *repo) Create(ctx context.Context, obj *entity.Todo) (*entity.Todo, erro
 }
 
 func (r *repo) CreateMany(ctx context.Context, objs []*entity.Todo) (int, error) {
-	result := r.dbWithContext(ctx).Create(objs)
+	result := r.db.Create(objs)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -43,7 +39,7 @@ func (r *repo) CreateMany(ctx context.Context, objs []*entity.Todo) (int, error)
 }
 
 func (r *repo) Update(ctx context.Context, obj *entity.Todo) (*entity.Todo, error) {
-	result := r.dbWithContext(ctx).Updates(obj)
+	result := r.db.Updates(obj)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -51,7 +47,7 @@ func (r *repo) Update(ctx context.Context, obj *entity.Todo) (*entity.Todo, erro
 }
 
 func (r *repo) UpdateMany(ctx context.Context, objs []*entity.Todo) (int, error) {
-	result := r.dbWithContext(ctx).Updates(objs)
+	result := r.db.Updates(objs)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -68,7 +64,7 @@ func (r *repo) Count(ctx context.Context, queries map[string]interface{}) (int, 
 
 func (r *repo) GetById(ctx context.Context, id int) (*entity.Todo, error) {
 	record := &entity.Todo{}
-	result := r.dbWithContext(ctx).Find(&record, id).Limit(1)
+	result := r.db.Find(&record, id).Limit(1)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -102,7 +98,7 @@ func (r *repo) GetListPaging(ctx context.Context, queries map[string]interface{}
 
 	query := r.initQuery(ctx, queries)
 
-	if err := query.Offset(int((page - 1) * size)).Limit(int(size)).Scan(&records).Error; err != nil {
+	if err := query.Offset(int((page - 1) * size)).Limit(size).Scan(&records).Error; err != nil {
 		return nil, err
 	}
 
@@ -110,7 +106,7 @@ func (r *repo) GetListPaging(ctx context.Context, queries map[string]interface{}
 }
 
 func (r *repo) initQuery(ctx context.Context, queries map[string]interface{}) *gorm.DB {
-	query := r.dbWithContext(ctx).Model(&entity.Todo{})
+	query := r.db.Model(&entity.Todo{})
 	query = r.join(query, queries)
 	query = r.filter(query, queries)
 	query = r.sort(query, queries)
@@ -119,7 +115,7 @@ func (r *repo) initQuery(ctx context.Context, queries map[string]interface{}) *g
 
 func (r *repo) join(query *gorm.DB, queries map[string]interface{}) *gorm.DB {
 	query = query.Select(
-		"todos.*",
+		"*",
 	)
 	return query
 }

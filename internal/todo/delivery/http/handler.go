@@ -1,4 +1,4 @@
-package http
+package handler
 
 import (
 	"boilerplate-clean-arch/config"
@@ -22,7 +22,7 @@ type Handler struct {
 	mw      *middleware.MiddlewareManager
 }
 
-func NewHandler(cfg *config.Config, usecase usecase.IUseCase, mw *middleware.MiddlewareManager) Handler {
+func NewHandler(cfg *config.Config, usecase usecase.IUseCase, mw *middleware.MiddlewareManager) IHandler {
 	return Handler{
 		cfg:     cfg,
 		usecase: usecase,
@@ -33,9 +33,9 @@ func NewHandler(cfg *config.Config, usecase usecase.IUseCase, mw *middleware.Mid
 // Map todo routes
 func (h Handler) MapTodoRoutes(todoGroup *echo.Group) {
 	todoGroup.POST("", h.Create(), h.mw.AuthJWTMiddleware())
+	todoGroup.GET("", h.GetListPaging(), h.mw.AuthJWTMiddleware())
 	// newsGroup.PUT("/:news_id", h.Update(), mw.AuthSessionMiddleware, mw.CSRF)
 	// newsGroup.DELETE("/:news_id", h.Delete(), mw.AuthSessionMiddleware, mw.CSRF)
-	// newsGroup.GET("/:news_id", h.GetByID())
 	// newsGroup.GET("/search", h.SearchByTitle())
 	// newsGroup.GET("", h.GetNews())
 }
@@ -43,7 +43,7 @@ func (h Handler) MapTodoRoutes(todoGroup *echo.Group) {
 // Create godoc
 //
 //	@Summary		Create todo
-//	@Description	Create todo handler
+//	@Description	Create new todo
 //	@Tags			Todo
 //	@Accept			json
 //	@Produce		json
@@ -54,7 +54,7 @@ func (h Handler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := utils.GetRequestCtx(c)
 		todo := &models.SaveRequest{}
-		if err := utils.ReadRequest(c, todo); err != nil {
+		if err := utils.ReadBodyRequest(c, todo); err != nil {
 			log.Error(err)
 			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
 		}
@@ -69,5 +69,38 @@ func (h Handler) Create() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, httpResponse.NewRestResponse(http.StatusCreated, constants.STATUS_MESSAGE_CREATED, createdTodo))
+	}
+}
+
+// GetListPaging godoc
+//
+//	@Summary		Get list todo
+//	@Description	Get list todo with paging and filter
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			Page	query		int	true	"Page"
+//	@Param			Size	query		int	true	"Size"
+//	@Success		200		{object}	models.TodoListPaging
+//	@Router			/todo [get]
+func (h Handler) GetListPaging() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		ctx := utils.GetRequestCtx(c)
+		req := &models.RequestList{}
+		if err := utils.ReadQueryRequest(c, req); err != nil {
+			log.Error(err)
+			return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
+		}
+
+		listTodo, err := h.usecase.GetListPaging(ctx, req)
+		if err != nil {
+			if strings.Contains(err.Error(), constants.STATUS_CODE_BAD_REQUEST) {
+				return c.JSON(http.StatusOK, httpResponse.NewBadRequestError(utils.GetErrorMessage(err)))
+			} else {
+				return c.JSON(http.StatusOK, httpResponse.NewInternalServerError(err))
+			}
+		}
+
+		return c.JSON(http.StatusOK, httpResponse.NewRestResponse(http.StatusOK, constants.STATUS_MESSAGE_OK, listTodo))
 	}
 }

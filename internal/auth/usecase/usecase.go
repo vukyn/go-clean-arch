@@ -74,7 +74,7 @@ func (u *usecase) Register(ctx context.Context, params *models.SaveRequest) (*mo
 
 func (u *usecase) Login(ctx context.Context, params *models.LoginRequest) (*models.UserWithToken, error) {
 	log.SetPrefix("[Login]")
-	log.Infof("Sign in with user {Email: %v}", params.Email)
+	log.Infof("Sign in with user {Email: %#s}", params.Email)
 
 	// validation
 

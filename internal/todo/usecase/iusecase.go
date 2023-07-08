@@ -12,6 +12,6 @@ type IUseCase interface {
 	UpdateMany(ctx context.Context, userId int, params []*models.SaveRequest) (int, error)
 	GetById(ctx context.Context, id int) (*models.TodoResponse, error)
 	GetList(ctx context.Context, params *models.RequestList) ([]*models.TodoResponse, error)
-	GetListPaging(ctx context.Context, params *models.RequestList) (*models.ListPaging, error)
+	GetListPaging(ctx context.Context, params *models.RequestList) (*models.TodoListPaging, error)
 	GetOne(ctx context.Context, params *models.RequestList) (*models.TodoResponse, error)
 }

@@ -13,7 +13,7 @@ import (
 type Init struct {
 	Repository repository.IRepository
 	Usecase    usecase.IUseCase
-	Handler    handler.Handler
+	Handler    handler.IHandler
 }
 
 func NewInit(

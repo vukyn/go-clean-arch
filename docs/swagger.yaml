@@ -1,21 +1,6 @@
 basePath: /api/v1
 definitions:
-  models.TodoResponse:
-    properties:
-      content:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: integer
-      id:
-        type: integer
-      update_by:
-        type: integer
-      updated_at:
-        type: string
-    type: object
-  models.UserResponse:
+  boilerplate-clean-arch_internal_auth_models.UserResponse:
     properties:
       about:
         type: string
@@ -44,12 +29,40 @@ definitions:
       user_id:
         type: string
     type: object
-  models.UserWithToken:
+  boilerplate-clean-arch_internal_auth_models.UserWithToken:
     properties:
       token:
         type: string
       user:
-        $ref: '#/definitions/models.UserResponse'
+        $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse'
+    type: object
+  boilerplate-clean-arch_internal_todo_models.TodoListPaging:
+    properties:
+      page:
+        type: integer
+      records:
+        items:
+          $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse'
+        type: array
+      size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  boilerplate-clean-arch_internal_todo_models.TodoResponse:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      id:
+        type: integer
+      update_by:
+        type: integer
+      updated_at:
+        type: string
     type: object
 host: localhost:5001
 info:
@@ -85,7 +98,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.UserWithToken'
+            $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserWithToken'
       summary: Login
       tags:
       - Auth
@@ -146,15 +159,40 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.UserResponse'
+            $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse'
       summary: Create new user
       tags:
       - Auth
   /todo:
+    get:
+      consumes:
+      - application/json
+      description: Get list todo with paging and filter
+      parameters:
+      - description: Page
+        in: query
+        name: Page
+        required: true
+        type: integer
+      - description: Size
+        in: query
+        name: Size
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoListPaging'
+      summary: Get list todo
+      tags:
+      - Todo
     post:
       consumes:
       - application/json
-      description: Create todo handler
+      description: Create new todo
       parameters:
       - description: Content
         in: body
@@ -168,7 +206,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.TodoResponse'
+            $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse'
       summary: Create todo
       tags:
       - Todo
