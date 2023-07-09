@@ -53,6 +53,9 @@ func main() {
 	// Init Redis
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
+		Username:     cfg.Redis.Username,
+		Password:     cfg.Redis.Password,
+		DB:           cfg.Redis.DB,
 		MinIdleConns: cfg.Redis.MinIdleConns,
 		PoolSize:     cfg.Redis.PoolSize,
 		PoolTimeout:  time.Duration(cfg.Redis.PoolTimeout) * time.Second,

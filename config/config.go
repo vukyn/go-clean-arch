@@ -26,6 +26,9 @@ type RedisConfig struct {
 	PoolSize     int
 	PoolTimeout  int
 	MinIdleConns int
+	DB           int
+	Username     string
+	Password     string
 }
 
 type ServerConfig struct {
