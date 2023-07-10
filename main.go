@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"go-clean-arch/config"
 	"go-clean-arch/internal/server"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/gommon/log"
 	"github.com/redis/go-redis/v9"
 
@@ -28,6 +30,16 @@ func main() {
 	log.Info("Starting api server")
 
 	cfg := config.GetConfig()
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic(err.Error())
+	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+	cfg.Server.Port = port
 
 	// Init Logger
 	newLogger := logger.New(

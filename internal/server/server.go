@@ -36,7 +36,7 @@ func NewServer(cfg *config.Config, db *gorm.DB, redisClient *redis.Client) *Serv
 func (s *Server) Run() error {
 
 	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", s.cfg.Server.Port),
+		Addr:         fmt.Sprintf(":%s", s.cfg.Server.Port),
 		ReadTimeout:  time.Second * s.cfg.Server.ReadTimeout,
 		WriteTimeout: time.Second * s.cfg.Server.WriteTimeout,
 	}

@@ -33,7 +33,7 @@ type RedisConfig struct {
 
 type ServerConfig struct {
 	AppVersion        string
-	Port              int
+	Port              string
 	Mode              string
 	ReadTimeout       time.Duration
 	WriteTimeout      time.Duration
