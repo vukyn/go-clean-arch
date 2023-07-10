@@ -1,14 +1,14 @@
 package usecase
 
 import (
-	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/internal/auth/entity"
-	"boilerplate-clean-arch/internal/auth/models"
-	"boilerplate-clean-arch/internal/auth/repository"
-	"boilerplate-clean-arch/internal/constants"
-	"boilerplate-clean-arch/pkg/utils"
 	"context"
 	"fmt"
+	"go-clean-arch/config"
+	"go-clean-arch/internal/auth/entity"
+	"go-clean-arch/internal/auth/models"
+	"go-clean-arch/internal/auth/repository"
+	"go-clean-arch/internal/constants"
+	"go-clean-arch/pkg/utils"
 
 	"github.com/labstack/gommon/log"
 )

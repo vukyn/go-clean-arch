@@ -1,9 +1,9 @@
 package server
 
 import (
-	"boilerplate-clean-arch/config"
 	"context"
 	"fmt"
+	"go-clean-arch/config"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,9 +22,9 @@ const (
 
 // Server struct
 type Server struct {
-	echo *echo.Echo
-	cfg  *config.Config
-	db   *gorm.DB
+	echo        *echo.Echo
+	cfg         *config.Config
+	db          *gorm.DB
 	redisClient *redis.Client
 }
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"boilerplate-clean-arch/config"
-	todo "boilerplate-clean-arch/internal/todo/entity"
-	auth "boilerplate-clean-arch/internal/auth/entity"
+	"go-clean-arch/config"
+	todo "go-clean-arch/internal/todo/entity"
+	auth "go-clean-arch/internal/auth/entity"
 	"fmt"
 
 	"gorm.io/driver/postgres"

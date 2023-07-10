@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"boilerplate-clean-arch/internal/todo/models"
 	"context"
+	"go-clean-arch/internal/todo/models"
 )
 
 type IUseCase interface {

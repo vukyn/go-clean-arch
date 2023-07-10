@@ -1,325 +1,301 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Example Golang REST API.",
-        "title": "Swagger Clean Architecture API",
-        "contact": {
-            "name": "Vu Ky",
-            "url": "https://github.com/vukyn",
-            "email": "vukynpro@gmailcom"
-        },
-        "version": "1.0"
-    },
-    "host": "localhost:5001",
-    "basePath": "/api/v1",
-    "paths": {
-        "/auth/login": {
-            "post": {
-                "description": "Login and return token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Login",
-                "parameters": [
-                    {
-                        "description": "Email",
-                        "name": "Email",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Password",
-                        "name": "Password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserWithToken"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/register": {
-            "post": {
-                "description": "Create new user, returns user and token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Create new user",
-                "parameters": [
-                    {
-                        "description": "First name",
-                        "name": "FirstName",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Last name",
-                        "name": "LastName",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Email",
-                        "name": "Email",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Password",
-                        "name": "Password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Gender",
-                        "name": "Gender",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "City",
-                        "name": "City",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Country",
-                        "name": "Country",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Gender",
-                        "name": "Birthday",
-                        "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/todo": {
-            "get": {
-                "description": "Get list todo with paging and filter",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Get list todo",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Page",
-                        "name": "Page",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Size",
-                        "name": "Size",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoListPaging"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create new todo",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Create todo",
-                "parameters": [
-                    {
-                        "description": "Content",
-                        "name": "Content",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "boilerplate-clean-arch_internal_auth_models.UserResponse": {
-            "type": "object",
-            "properties": {
-                "about": {
-                    "type": "string"
-                },
-                "address": {
-                    "type": "string"
-                },
-                "avatar": {
-                    "type": "string"
-                },
-                "city": {
-                    "type": "string"
-                },
-                "country": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "gender": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "boilerplate-clean-arch_internal_auth_models.UserWithToken": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse"
-                }
-            }
-        },
-        "boilerplate-clean-arch_internal_todo_models.TodoListPaging": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "records": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse"
-                    }
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            }
-        },
-        "boilerplate-clean-arch_internal_todo_models.TodoResponse": {
-            "type": "object",
-            "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "update_by": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        }
-    }
+	"swagger": "2.0",
+	"info": {
+		"description": "Example Golang REST API.",
+		"title": "Swagger Clean Architecture API",
+		"contact": {
+			"name": "Vu Ky",
+			"url": "https://github.com/vukyn",
+			"email": "vukynpro@gmailcom"
+		},
+		"version": "1.0"
+	},
+	"host": "localhost:5001",
+	"basePath": "/api/v1",
+	"paths": {
+		"/auth/login": {
+			"post": {
+				"description": "Login and return token",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"tags": ["Auth"],
+				"summary": "Login",
+				"parameters": [
+					{
+						"description": "Email",
+						"name": "Email",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Password",
+						"name": "Password",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/go-clean-arch_internal_auth_models.UserWithToken"
+						}
+					}
+				}
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"description": "Create new user, returns user and token",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"tags": ["Auth"],
+				"summary": "Create new user",
+				"parameters": [
+					{
+						"description": "First name",
+						"name": "FirstName",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Last name",
+						"name": "LastName",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Email",
+						"name": "Email",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Password",
+						"name": "Password",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Gender",
+						"name": "Gender",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "City",
+						"name": "City",
+						"in": "body",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Country",
+						"name": "Country",
+						"in": "body",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "Gender",
+						"name": "Birthday",
+						"in": "body",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/go-clean-arch_internal_auth_models.UserResponse"
+						}
+					}
+				}
+			}
+		},
+		"/todo": {
+			"get": {
+				"description": "Get list todo with paging and filter",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"tags": ["Todo"],
+				"summary": "Get list todo",
+				"parameters": [
+					{
+						"type": "integer",
+						"description": "Page",
+						"name": "Page",
+						"in": "query",
+						"required": true
+					},
+					{
+						"type": "integer",
+						"description": "Size",
+						"name": "Size",
+						"in": "query",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoListPaging"
+						}
+					}
+				}
+			},
+			"post": {
+				"description": "Create new todo",
+				"consumes": ["application/json"],
+				"produces": ["application/json"],
+				"tags": ["Todo"],
+				"summary": "Create todo",
+				"parameters": [
+					{
+						"description": "Content",
+						"name": "Content",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoResponse"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"go-clean-arch_internal_auth_models.UserResponse": {
+			"type": "object",
+			"properties": {
+				"about": {
+					"type": "string"
+				},
+				"address": {
+					"type": "string"
+				},
+				"avatar": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"country": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"first_name": {
+					"type": "string"
+				},
+				"gender": {
+					"type": "string"
+				},
+				"id": {
+					"type": "integer"
+				},
+				"last_name": {
+					"type": "string"
+				},
+				"phone_number": {
+					"type": "string"
+				},
+				"role": {
+					"type": "string"
+				},
+				"user_id": {
+					"type": "string"
+				}
+			}
+		},
+		"go-clean-arch_internal_auth_models.UserWithToken": {
+			"type": "object",
+			"properties": {
+				"token": {
+					"type": "string"
+				},
+				"user": {
+					"$ref": "#/definitions/go-clean-arch_internal_auth_models.UserResponse"
+				}
+			}
+		},
+		"go-clean-arch_internal_todo_models.TodoListPaging": {
+			"type": "object",
+			"properties": {
+				"page": {
+					"type": "integer"
+				},
+				"records": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoResponse"
+					}
+				},
+				"size": {
+					"type": "integer"
+				},
+				"total": {
+					"type": "integer"
+				}
+			}
+		},
+		"go-clean-arch_internal_todo_models.TodoResponse": {
+			"type": "object",
+			"properties": {
+				"content": {
+					"type": "string"
+				},
+				"created_at": {
+					"type": "string"
+				},
+				"created_by": {
+					"type": "integer"
+				},
+				"id": {
+					"type": "integer"
+				},
+				"update_by": {
+					"type": "integer"
+				},
+				"updated_at": {
+					"type": "string"
+				}
+			}
+		}
+	}
 }

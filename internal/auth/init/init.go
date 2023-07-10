@@ -1,10 +1,10 @@
 package init
 
 import (
-	"boilerplate-clean-arch/config"
-	handler "boilerplate-clean-arch/internal/auth/delivery/http"
-	"boilerplate-clean-arch/internal/auth/repository"
-	"boilerplate-clean-arch/internal/auth/usecase"
+	"go-clean-arch/config"
+	handler "go-clean-arch/internal/auth/delivery/http"
+	"go-clean-arch/internal/auth/repository"
+	"go-clean-arch/internal/auth/usecase"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"

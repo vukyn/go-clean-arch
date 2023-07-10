@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/internal/todo/entity"
 	"context"
+	"go-clean-arch/internal/todo/entity"
 )
 
 type IRepository interface {

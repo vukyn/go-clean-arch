@@ -57,7 +57,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserWithToken"
+                            "$ref": "#/definitions/go-clean-arch_internal_auth_models.UserWithToken"
                         }
                     }
                 }
@@ -151,7 +151,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse"
+                            "$ref": "#/definitions/go-clean-arch_internal_auth_models.UserResponse"
                         }
                     }
                 }
@@ -190,7 +190,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoListPaging"
+                            "$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoListPaging"
                         }
                     }
                 }
@@ -222,7 +222,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse"
+                            "$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoResponse"
                         }
                     }
                 }
@@ -230,7 +230,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "boilerplate-clean-arch_internal_auth_models.UserResponse": {
+        "go-clean-arch_internal_auth_models.UserResponse": {
             "type": "object",
             "properties": {
                 "about": {
@@ -274,18 +274,18 @@ const docTemplate = `{
                 }
             }
         },
-        "boilerplate-clean-arch_internal_auth_models.UserWithToken": {
+        "go-clean-arch_internal_auth_models.UserWithToken": {
             "type": "object",
             "properties": {
                 "token": {
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse"
+                    "$ref": "#/definitions/go-clean-arch_internal_auth_models.UserResponse"
                 }
             }
         },
-        "boilerplate-clean-arch_internal_todo_models.TodoListPaging": {
+        "go-clean-arch_internal_todo_models.TodoListPaging": {
             "type": "object",
             "properties": {
                 "page": {
@@ -294,7 +294,7 @@ const docTemplate = `{
                 "records": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse"
+                        "$ref": "#/definitions/go-clean-arch_internal_todo_models.TodoResponse"
                     }
                 },
                 "size": {
@@ -305,7 +305,7 @@ const docTemplate = `{
                 }
             }
         },
-        "boilerplate-clean-arch_internal_todo_models.TodoResponse": {
+        "go-clean-arch_internal_todo_models.TodoResponse": {
             "type": "object",
             "properties": {
                 "content": {

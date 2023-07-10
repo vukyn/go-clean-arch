@@ -1,13 +1,13 @@
 package middleware
 
 import (
-	"boilerplate-clean-arch/internal/constants"
-	"boilerplate-clean-arch/pkg/httpResponse"
 	"errors"
+	"go-clean-arch/internal/constants"
+	"go-clean-arch/pkg/httpResponse"
 	"net/http"
 	"strings"
 
-	"boilerplate-clean-arch/pkg/utils"
+	"go-clean-arch/pkg/utils"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"

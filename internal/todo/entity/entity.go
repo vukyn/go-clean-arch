@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"boilerplate-clean-arch/internal/todo/models"
+	"go-clean-arch/internal/todo/models"
 	"time"
 
 	"github.com/jinzhu/copier"

@@ -1,4 +1,4 @@
-module boilerplate-clean-arch
+module go-clean-arch
 
 go 1.20
 
@@ -15,6 +15,8 @@ require (
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.1
 )
+
+require github.com/rogpeppe/go-internal v1.11.0 // indirect
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect

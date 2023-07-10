@@ -1,14 +1,14 @@
 package handler
 
 import (
-	"boilerplate-clean-arch/config"
-	userModel "boilerplate-clean-arch/internal/auth/models"
-	"boilerplate-clean-arch/internal/constants"
-	"boilerplate-clean-arch/internal/middleware"
-	"boilerplate-clean-arch/internal/todo/models"
-	"boilerplate-clean-arch/internal/todo/usecase"
-	"boilerplate-clean-arch/pkg/httpResponse"
-	"boilerplate-clean-arch/pkg/utils"
+	"go-clean-arch/config"
+	userModel "go-clean-arch/internal/auth/models"
+	"go-clean-arch/internal/constants"
+	"go-clean-arch/internal/middleware"
+	"go-clean-arch/internal/todo/models"
+	"go-clean-arch/internal/todo/usecase"
+	"go-clean-arch/pkg/httpResponse"
+	"go-clean-arch/pkg/utils"
 	"net/http"
 	"strings"
 

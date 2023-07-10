@@ -1,7 +1,7 @@
 package models
 
 import (
-	commonModel "boilerplate-clean-arch/internal/models"
+	commonModel "go-clean-arch/internal/models"
 	"time"
 
 	"github.com/google/uuid"

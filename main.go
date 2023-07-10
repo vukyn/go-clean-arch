@@ -1,9 +1,9 @@
 package main
 
 import (
-	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/internal/server"
 	"fmt"
+	"go-clean-arch/config"
+	"go-clean-arch/internal/server"
 	"time"
 
 	"github.com/labstack/gommon/log"

@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/internal/auth/entity"
-	"boilerplate-clean-arch/pkg/utils/conversion"
 	"context"
 	"fmt"
+	"go-clean-arch/internal/auth/entity"
+	"go-clean-arch/pkg/utils/conversion"
 
 	"gorm.io/gorm"
 )

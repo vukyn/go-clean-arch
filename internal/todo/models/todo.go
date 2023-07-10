@@ -1,14 +1,14 @@
 package models
 
 import (
-	commonModel "boilerplate-clean-arch/internal/models"
+	commonModel "go-clean-arch/internal/models"
 )
 
 type RequestList struct {
 	commonModel.RequestPaging
-	FromDate  int	`json:"from_date"`
-	ToDate    int	`json:"to_date"`
-	CreatedBy int	`json:"created_by"`
+	FromDate  int `json:"from_date"`
+	ToDate    int `json:"to_date"`
+	CreatedBy int `json:"created_by"`
 }
 
 func (r *RequestList) ToMap() map[string]interface{} {

@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"boilerplate-clean-arch/internal/auth/models"
+	"go-clean-arch/internal/auth/models"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"

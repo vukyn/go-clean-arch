@@ -1,10 +1,10 @@
 package server
 
 import (
-	_ "boilerplate-clean-arch/docs"
-	initAuth "boilerplate-clean-arch/internal/auth/init"
-	apiMiddlewares "boilerplate-clean-arch/internal/middleware"
-	initTodo "boilerplate-clean-arch/internal/todo/init"
+	_ "go-clean-arch/docs"
+	initAuth "go-clean-arch/internal/auth/init"
+	apiMiddlewares "go-clean-arch/internal/middleware"
+	initTodo "go-clean-arch/internal/todo/init"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"

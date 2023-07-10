@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"boilerplate-clean-arch/internal/auth/models"
+	"go-clean-arch/internal/auth/models"
 	"time"
 
 	"github.com/google/uuid"
