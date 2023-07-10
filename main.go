@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/gommon/log"
 	"github.com/redis/go-redis/v9"
 
@@ -30,13 +31,17 @@ func main() {
 
 	cfg := config.GetConfig()
 
-	// err := godotenv.Load(".env")
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
 	port := os.Getenv("PORT")
+	// Get port from .env file in case of running locally
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		err := godotenv.Load(".env")
+		if err != nil {
+			panic(err.Error())
+		}
+		port = os.Getenv("PORT")
+		if port == "" {
+			log.Fatal("$PORT must be set")
+		}
 	}
 	cfg.Server.Port = port
 
