@@ -1,213 +1,213 @@
 basePath: /api/v1
 definitions:
-  boilerplate-clean-arch_internal_auth_models.UserResponse:
-    properties:
-      about:
-        type: string
-      address:
-        type: string
-      avatar:
-        type: string
-      city:
-        type: string
-      country:
-        type: string
-      email:
-        type: string
-      first_name:
-        type: string
-      gender:
-        type: string
-      id:
-        type: integer
-      last_name:
-        type: string
-      phone_number:
-        type: string
-      role:
-        type: string
-      user_id:
-        type: string
-    type: object
-  boilerplate-clean-arch_internal_auth_models.UserWithToken:
-    properties:
-      token:
-        type: string
-      user:
-        $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse'
-    type: object
-  boilerplate-clean-arch_internal_todo_models.TodoListPaging:
-    properties:
-      page:
-        type: integer
-      records:
-        items:
-          $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse'
-        type: array
-      size:
-        type: integer
-      total:
-        type: integer
-    type: object
-  boilerplate-clean-arch_internal_todo_models.TodoResponse:
-    properties:
-      content:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: integer
-      id:
-        type: integer
-      update_by:
-        type: integer
-      updated_at:
-        type: string
-    type: object
+    go-clean-arch_internal_auth_models.UserResponse:
+        properties:
+            about:
+                type: string
+            address:
+                type: string
+            avatar:
+                type: string
+            city:
+                type: string
+            country:
+                type: string
+            email:
+                type: string
+            first_name:
+                type: string
+            gender:
+                type: string
+            id:
+                type: integer
+            last_name:
+                type: string
+            phone_number:
+                type: string
+            role:
+                type: string
+            user_id:
+                type: string
+        type: object
+    go-clean-arch_internal_auth_models.UserWithToken:
+        properties:
+            token:
+                type: string
+            user:
+                $ref: '#/definitions/go-clean-arch_internal_auth_models.UserResponse'
+        type: object
+    go-clean-arch_internal_todo_models.TodoListPaging:
+        properties:
+            page:
+                type: integer
+            records:
+                items:
+                    $ref: '#/definitions/go-clean-arch_internal_todo_models.TodoResponse'
+                type: array
+            size:
+                type: integer
+            total:
+                type: integer
+        type: object
+    go-clean-arch_internal_todo_models.TodoResponse:
+        properties:
+            content:
+                type: string
+            created_at:
+                type: string
+            created_by:
+                type: integer
+            id:
+                type: integer
+            update_by:
+                type: integer
+            updated_at:
+                type: string
+        type: object
 host: localhost:5001
 info:
-  contact:
-    email: vukynpro@gmailcom
-    name: Vu Ky
-    url: https://github.com/vukyn
-  description: Example Golang REST API.
-  title: Swagger Clean Architecture API
-  version: "1.0"
+    contact:
+        email: vukynpro@gmailcom
+        name: Vu Ky
+        url: https://github.com/vukyn
+    description: Example Golang REST API.
+    title: Swagger Clean Architecture API
+    version: '1.0'
 paths:
-  /auth/login:
-    post:
-      consumes:
-      - application/json
-      description: Login and return token
-      parameters:
-      - description: Email
-        in: body
-        name: Email
-        required: true
-        schema:
-          type: string
-      - description: Password
-        in: body
-        name: Password
-        required: true
-        schema:
-          type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserWithToken'
-      summary: Login
-      tags:
-      - Auth
-  /auth/register:
-    post:
-      consumes:
-      - application/json
-      description: Create new user, returns user and token
-      parameters:
-      - description: First name
-        in: body
-        name: FirstName
-        required: true
-        schema:
-          type: string
-      - description: Last name
-        in: body
-        name: LastName
-        required: true
-        schema:
-          type: string
-      - description: Email
-        in: body
-        name: Email
-        required: true
-        schema:
-          type: string
-      - description: Password
-        in: body
-        name: Password
-        required: true
-        schema:
-          type: string
-      - description: Gender
-        in: body
-        name: Gender
-        required: true
-        schema:
-          type: string
-      - description: City
-        in: body
-        name: City
-        schema:
-          type: string
-      - description: Country
-        in: body
-        name: Country
-        schema:
-          type: string
-      - description: Gender
-        in: body
-        name: Birthday
-        schema:
-          type: string
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/boilerplate-clean-arch_internal_auth_models.UserResponse'
-      summary: Create new user
-      tags:
-      - Auth
-  /todo:
-    get:
-      consumes:
-      - application/json
-      description: Get list todo with paging and filter
-      parameters:
-      - description: Page
-        in: query
-        name: Page
-        required: true
-        type: integer
-      - description: Size
-        in: query
-        name: Size
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoListPaging'
-      summary: Get list todo
-      tags:
-      - Todo
-    post:
-      consumes:
-      - application/json
-      description: Create new todo
-      parameters:
-      - description: Content
-        in: body
-        name: Content
-        required: true
-        schema:
-          type: string
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/boilerplate-clean-arch_internal_todo_models.TodoResponse'
-      summary: Create todo
-      tags:
-      - Todo
-swagger: "2.0"
+    /auth/login:
+        post:
+            consumes:
+                - application/json
+            description: Login and return token
+            parameters:
+                - description: Email
+                  in: body
+                  name: Email
+                  required: true
+                  schema:
+                      type: string
+                - description: Password
+                  in: body
+                  name: Password
+                  required: true
+                  schema:
+                      type: string
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/go-clean-arch_internal_auth_models.UserWithToken'
+            summary: Login
+            tags:
+                - Auth
+    /auth/register:
+        post:
+            consumes:
+                - application/json
+            description: Create new user, returns user and token
+            parameters:
+                - description: First name
+                  in: body
+                  name: FirstName
+                  required: true
+                  schema:
+                      type: string
+                - description: Last name
+                  in: body
+                  name: LastName
+                  required: true
+                  schema:
+                      type: string
+                - description: Email
+                  in: body
+                  name: Email
+                  required: true
+                  schema:
+                      type: string
+                - description: Password
+                  in: body
+                  name: Password
+                  required: true
+                  schema:
+                      type: string
+                - description: Gender
+                  in: body
+                  name: Gender
+                  required: true
+                  schema:
+                      type: string
+                - description: City
+                  in: body
+                  name: City
+                  schema:
+                      type: string
+                - description: Country
+                  in: body
+                  name: Country
+                  schema:
+                      type: string
+                - description: Gender
+                  in: body
+                  name: Birthday
+                  schema:
+                      type: string
+            produces:
+                - application/json
+            responses:
+                '201':
+                    description: Created
+                    schema:
+                        $ref: '#/definitions/go-clean-arch_internal_auth_models.UserResponse'
+            summary: Create new user
+            tags:
+                - Auth
+    /todo:
+        get:
+            consumes:
+                - application/json
+            description: Get list todo with paging and filter
+            parameters:
+                - description: Page
+                  in: query
+                  name: Page
+                  required: true
+                  type: integer
+                - description: Size
+                  in: query
+                  name: Size
+                  required: true
+                  type: integer
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: OK
+                    schema:
+                        $ref: '#/definitions/go-clean-arch_internal_todo_models.TodoListPaging'
+            summary: Get list todo
+            tags:
+                - Todo
+        post:
+            consumes:
+                - application/json
+            description: Create new todo
+            parameters:
+                - description: Content
+                  in: body
+                  name: Content
+                  required: true
+                  schema:
+                      type: string
+            produces:
+                - application/json
+            responses:
+                '201':
+                    description: Created
+                    schema:
+                        $ref: '#/definitions/go-clean-arch_internal_todo_models.TodoResponse'
+            summary: Create todo
+            tags:
+                - Todo
+swagger: '2.0'

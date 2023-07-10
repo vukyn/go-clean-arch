@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"boilerplate-clean-arch/internal/auth/models"
 	"context"
+	"go-clean-arch/internal/auth/models"
 )
 
 type IUseCase interface {

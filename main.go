@@ -1,11 +1,13 @@
 package main
 
 import (
-	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/internal/server"
 	"fmt"
+	"go-clean-arch/config"
+	"go-clean-arch/internal/server"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/gommon/log"
 	"github.com/redis/go-redis/v9"
 
@@ -28,6 +30,20 @@ func main() {
 	log.Info("Starting api server")
 
 	cfg := config.GetConfig()
+
+	port := os.Getenv("PORT")
+	// Get port from .env file in case of running locally
+	if port == "" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			panic(err.Error())
+		}
+		port = os.Getenv("PORT")
+		if port == "" {
+			log.Fatal("$PORT must be set")
+		}
+	}
+	cfg.Server.Port = port
 
 	// Init Logger
 	newLogger := logger.New(
@@ -53,6 +69,9 @@ func main() {
 	// Init Redis
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:         fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
+		Username:     cfg.Redis.Username,
+		Password:     cfg.Redis.Password,
+		DB:           cfg.Redis.DB,
 		MinIdleConns: cfg.Redis.MinIdleConns,
 		PoolSize:     cfg.Redis.PoolSize,
 		PoolTimeout:  time.Duration(cfg.Redis.PoolTimeout) * time.Second,

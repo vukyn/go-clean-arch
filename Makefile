@@ -1,11 +1,11 @@
 run:
-	go run cmd/main.go
+	go run main.go
 
 test:
 	go test -cover ./...
 
 migrate:
-	go run migrations/main.go
+	go run migrations/migrate.go
 
 tidy:
 	go mod tidy

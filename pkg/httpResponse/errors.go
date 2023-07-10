@@ -1,9 +1,9 @@
 package httpResponse
 
 import (
-	"boilerplate-clean-arch/internal/constants"
-	"boilerplate-clean-arch/pkg/utils"
 	"fmt"
+	"go-clean-arch/internal/constants"
+	"go-clean-arch/pkg/utils"
 	"net/http"
 	"strings"
 )

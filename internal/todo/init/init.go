@@ -1,11 +1,11 @@
 package init
 
 import (
-	"boilerplate-clean-arch/config"
-	"boilerplate-clean-arch/internal/middleware"
-	handler "boilerplate-clean-arch/internal/todo/delivery/http"
-	"boilerplate-clean-arch/internal/todo/repository"
-	"boilerplate-clean-arch/internal/todo/usecase"
+	"go-clean-arch/config"
+	"go-clean-arch/internal/middleware"
+	handler "go-clean-arch/internal/todo/delivery/http"
+	"go-clean-arch/internal/todo/repository"
+	"go-clean-arch/internal/todo/usecase"
 
 	"gorm.io/gorm"
 )

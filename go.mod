@@ -1,4 +1,4 @@
-module boilerplate-clean-arch
+module go-clean-arch
 
 go 1.20
 
@@ -14,6 +14,11 @@ require (
 	golang.org/x/crypto v0.11.0
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.1
+)
+
+require (
+	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/rogpeppe/go-internal v1.11.0 // indirect
 )
 
 require (

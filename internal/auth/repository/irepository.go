@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/internal/auth/entity"
 	"context"
+	"go-clean-arch/internal/auth/entity"
 )
 
 // Auth repository interface

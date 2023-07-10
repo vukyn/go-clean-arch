@@ -26,11 +26,14 @@ type RedisConfig struct {
 	PoolSize     int
 	PoolTimeout  int
 	MinIdleConns int
+	DB           int
+	Username     string
+	Password     string
 }
 
 type ServerConfig struct {
 	AppVersion        string
-	Port              int
+	Port              string
 	Mode              string
 	ReadTimeout       time.Duration
 	WriteTimeout      time.Duration

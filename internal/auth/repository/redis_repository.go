@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/internal/auth/entity"
 	"context"
 	"encoding/json"
+	"go-clean-arch/internal/auth/entity"
 	"time"
 )
 

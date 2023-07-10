@@ -1,11 +1,11 @@
 package repository
 
 import (
-	"boilerplate-clean-arch/internal/constants"
-	"boilerplate-clean-arch/internal/todo/entity"
-	"boilerplate-clean-arch/pkg/utils/conversion"
 	"context"
 	"fmt"
+	"go-clean-arch/internal/constants"
+	"go-clean-arch/internal/todo/entity"
+	"go-clean-arch/pkg/utils/conversion"
 
 	"gorm.io/gorm"
 )

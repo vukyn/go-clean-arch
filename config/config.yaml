@@ -1,6 +1,5 @@
 server:
     AppVersion: 1.0.0
-    Port: 5001
     Mode: Development
     ReadTimeout: 5
     WriteTimeout: 5
@@ -9,15 +8,18 @@ server:
     Debug: true
 
 postgreSQL:
-    Host: localhost
+    Host: arjuna.db.elephantsql.com
     Port: 5432
-    User: postgres
-    Password: 123
-    DBName: go_demo
+    User: kgpkfsjq
+    Password: RWOBbnsLzIdMdOFB424lbGRxSxiSAZNE
+    DBName: kgpkfsjq
 
 redis:
-    Host: localhost
-    Port: 6379
+    Host: redis-12501.c1.ap-southeast-1-1.ec2.cloud.redislabs.com
+    Port: 12501
+    DB: 0
+    Username: default
+    Password: MovuXHLLp4bYE3uCc2q8Hgee3Amv7Kic
     MinIdleConns: 10
     PoolSize: 10
     PoolTimeout: 60

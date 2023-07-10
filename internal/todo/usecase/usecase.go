@@ -1,13 +1,13 @@
 package usecase
 
 import (
-	"boilerplate-clean-arch/internal/constants"
-	commonModel "boilerplate-clean-arch/internal/models"
-	"boilerplate-clean-arch/internal/todo/entity"
-	"boilerplate-clean-arch/internal/todo/models"
-	"boilerplate-clean-arch/internal/todo/repository"
-	"boilerplate-clean-arch/pkg/utils"
 	"context"
+	"go-clean-arch/internal/constants"
+	commonModel "go-clean-arch/internal/models"
+	"go-clean-arch/internal/todo/entity"
+	"go-clean-arch/internal/todo/models"
+	"go-clean-arch/internal/todo/repository"
+	"go-clean-arch/pkg/utils"
 
 	"github.com/labstack/gommon/log"
 )

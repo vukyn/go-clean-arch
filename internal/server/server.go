@@ -1,9 +1,9 @@
 package server
 
 import (
-	"boilerplate-clean-arch/config"
 	"context"
 	"fmt"
+	"go-clean-arch/config"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,9 +22,9 @@ const (
 
 // Server struct
 type Server struct {
-	echo *echo.Echo
-	cfg  *config.Config
-	db   *gorm.DB
+	echo        *echo.Echo
+	cfg         *config.Config
+	db          *gorm.DB
 	redisClient *redis.Client
 }
 
@@ -36,7 +36,7 @@ func NewServer(cfg *config.Config, db *gorm.DB, redisClient *redis.Client) *Serv
 func (s *Server) Run() error {
 
 	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", s.cfg.Server.Port),
+		Addr:         fmt.Sprintf(":%s", s.cfg.Server.Port),
 		ReadTimeout:  time.Second * s.cfg.Server.ReadTimeout,
 		WriteTimeout: time.Second * s.cfg.Server.WriteTimeout,
 	}
