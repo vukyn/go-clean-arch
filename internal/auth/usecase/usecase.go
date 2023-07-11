@@ -29,7 +29,7 @@ func NewUseCase(cfg *config.Config, repo repository.IRepository, redisRepo repos
 }
 
 const (
-	basePrefix = "api-auth:"
+	basePrefix = "api-auth"
 )
 
 func (u *usecase) GenerateUserKey(userId int) string {

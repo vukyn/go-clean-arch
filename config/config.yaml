@@ -15,12 +15,12 @@ postgreSQL:
     DBName: kgpkfsjq
 
 redis:
-    Host: redis-12501.c1.ap-southeast-1-1.ec2.cloud.redislabs.com
-    Port: 12501
+    Host: redis-14027.c1.ap-southeast-1-1.ec2.cloud.redislabs.com
+    Port: 14027
     DB: 0
     Username: default
-    Password: MovuXHLLp4bYE3uCc2q8Hgee3Amv7Kic
-    MinIdleConns: 10
+    Password: gb1ad1PWZbkAPWwrsbLScNNUmGYWtXNI
+    # MinIdleConns: 10
     PoolSize: 10
     PoolTimeout: 60
 

@@ -42,7 +42,7 @@ func (s *Server) Run() error {
 	}
 
 	go func() {
-		log.Infof("Server is listening on PORT: %d", s.cfg.Server.Port)
+		log.Infof("Server is listening on PORT: %v", s.cfg.Server.Port)
 		if err := s.echo.StartServer(server); err != nil {
 			log.Fatalf("Error starting Server: ", err)
 		}

@@ -72,7 +72,6 @@ func main() {
 		Username:     cfg.Redis.Username,
 		Password:     cfg.Redis.Password,
 		DB:           cfg.Redis.DB,
-		MinIdleConns: cfg.Redis.MinIdleConns,
 		PoolSize:     cfg.Redis.PoolSize,
 		PoolTimeout:  time.Duration(cfg.Redis.PoolTimeout) * time.Second,
 	})
